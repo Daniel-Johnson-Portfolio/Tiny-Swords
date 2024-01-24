@@ -11,9 +11,14 @@ public class GoldScript : MonoBehaviour
     private TextMeshProUGUI tmpText;
     [SerializeField] protected SCR_Player_Stats playerStats;
     [SerializeField] public SCR_Tools tools;
+    public SCR_M_UI_Manager UI_Manager;
+    public delegate void TheDelegate();
+    public TheDelegate theDelegate;
 
     void Start()
     {
+        UI_Manager = FindObjectOfType<SCR_M_UI_Manager>();
+        theDelegate = AddToInventory;
         tools = FindObjectOfType<SCR_Tools>();
         playerStats = FindObjectOfType<SCR_Player_Stats>();
         Banner = gameObject.transform.GetChild(0).GetChild(0).gameObject;
@@ -44,7 +49,6 @@ public class GoldScript : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D Collider)
     {
-        Debug.Log("TriggerStay2D");
         if (Collider.gameObject.tag == "Player")
         {
             Player = Collider.gameObject;
@@ -55,7 +59,6 @@ public class GoldScript : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D Collider)
     {
-        Debug.Log("TriggerExit2D");
         if (Collider.gameObject.tag == "Player")
         {
             active = false;
