@@ -5,14 +5,26 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using TMPro;
 
-public class SCR_M_UI_Manager : MonoBehaviour, IInterface
+public class SCR_M_UI_Manager : MonoBehaviour
 {
     public List<GameObject> gameObjects = new List<GameObject>();
+    public SCR_Player_Stats playerStats;
 
-    public void GetItem()
+    void Start() 
     {
-        throw new NotImplementedException();
+        playerStats = FindObjectOfType<SCR_Player_Stats>();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_BUTTON2))
+        {
+            Debug.Log(gameObjects.First<GameObject>().name);
+            AddToInventory();
+            
+        }
     }
 
     public void OnTriggerEnter2D(Collider2D Collider)
@@ -21,7 +33,7 @@ public class SCR_M_UI_Manager : MonoBehaviour, IInterface
         {
             gameObjects.Add(Collider.gameObject);
         }
-        TheDebug();
+       
     }
     void OnTriggerExit2D(Collider2D Collider)
     {
@@ -30,7 +42,7 @@ public class SCR_M_UI_Manager : MonoBehaviour, IInterface
             gameObjects.Remove(Collider.gameObject);
             
         }
-        TheDebug();
+        
     }
 
     void TheDebug() 
@@ -41,13 +53,13 @@ public class SCR_M_UI_Manager : MonoBehaviour, IInterface
         
         }
 
-        var chosen = gameObjects.First<GameObject>();
-        var chosen2 = gameObjects.Last<GameObject>();
+    }
+
+    public void AddToInventory()
+    {
+        Destroy(gameObjects.First<GameObject>());
+        playerStats.IncrementGoldCollected();
 
     }
-}
 
-public interface IInterface
-{
-    public void GetItem();
 }
