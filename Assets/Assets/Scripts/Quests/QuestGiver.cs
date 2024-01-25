@@ -74,6 +74,8 @@ public class QuestGiver : MonoBehaviour
 
     public void AcceptQuest(Button button)
     {
+        Camera.main.GetComponent<CameraScript>().PlayerLocked = true;
+        Camera.main.orthographicSize = 5;
         selectedQuest.IsActive = true;
         player.GetComponent<SCR_Player_MasterController>().quest = selectedQuest;
         CurrentNPC = button.gameObject.transform.parent.parent.parent.parent.gameObject;

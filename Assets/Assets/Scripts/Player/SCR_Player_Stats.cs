@@ -72,6 +72,7 @@ public class SCR_Player_Stats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //PlayerPrefs.DeleteAll();
         LoadPlayerStats();
         if (playerStats.Level == 0) 
         {
@@ -82,8 +83,12 @@ public class SCR_Player_Stats : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SavePlayerStats();
         gameStats.TimeInGame += Time.deltaTime;
+    }
+
+    void OnApplicationQuit()
+    {
+        SavePlayerStats();
     }
 
     public void IncrementAmountKilled()

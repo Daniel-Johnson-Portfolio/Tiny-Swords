@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class GoldScript : MonoBehaviour
+public class LogScript : MonoBehaviour
 {
     private GameObject Banner;
-    private bool active;
-    private GameObject Player;
-    private TextMeshProUGUI tmpText;
     [SerializeField] public SCR_Tools tools;
 
     void Start()
@@ -21,8 +18,6 @@ public class GoldScript : MonoBehaviour
     {
         if (Collider.gameObject.tag == "Player")
         {
-            Player = Collider.gameObject;
-            active = true;
             StartCoroutine(tools.Open(Banner));
         }
     }
@@ -31,8 +26,6 @@ public class GoldScript : MonoBehaviour
     {
         if (Collider.gameObject.tag == "Player")
         {
-            active = false;
-
             StartCoroutine(tools.Close(Banner));
         }
     }

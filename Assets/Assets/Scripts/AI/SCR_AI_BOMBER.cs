@@ -41,7 +41,6 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         if (currentState.IsName("Explosion"))
         {
-            Debug.Log("ANIM");
             gameObject.transform.localScale = new Vector3(2, 2, 2);
             Exploded = true;
             DamagePlayer();

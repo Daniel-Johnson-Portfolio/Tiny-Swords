@@ -8,6 +8,7 @@ TagManager:
   - NPC
   - QuestLocation
   - Gold
+  - Collectable
   layers:
   - Default
   - TransparentFX

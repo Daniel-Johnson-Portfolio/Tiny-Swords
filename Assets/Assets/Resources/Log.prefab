@@ -250,10 +250,10 @@ GameObject:
   - component: {fileID: 3302542568080576840}
   - component: {fileID: 1435330860914138852}
   - component: {fileID: 6721279255117741420}
-  - component: {fileID: 6202727885072193586}
+  - component: {fileID: 3074659773176166261}
   m_Layer: 0
   m_Name: Log
-  m_TagString: Untagged
+  m_TagString: Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -272,7 +272,7 @@ Transform:
   m_Children:
   - {fileID: 4686367542637897665}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3302542568080576840
 SpriteRenderer:
@@ -382,7 +382,7 @@ CircleCollider2D:
   m_Offset: {x: -0.069675446, y: 0.39236104}
   serializedVersion: 2
   m_Radius: 1.3964845
---- !u!114 &6202727885072193586
+--- !u!114 &3074659773176166261
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -391,10 +391,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7079431488820216539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c76c6512f5f2c774887441ffcefda780, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b9349dd12e23394dbac58253f5e6fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerStats: {fileID: 0}
+  tools: {fileID: 0}
 --- !u!1 &7563645073447490787
 GameObject:
   m_ObjectHideFlags: 0

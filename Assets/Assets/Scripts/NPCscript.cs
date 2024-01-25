@@ -43,7 +43,6 @@ public class NPCscript : MonoBehaviour
         myCamera.transform.position = Banner.transform.position + new Vector3(-0.5f,0.5f,-15f);
         StartCoroutine(tools.Open(Scroll));
     }
-    //.GetComponent<TextMeshPro>()
 
     void OnTriggerEnter2D(Collider2D Collider) 
     {

@@ -37,10 +37,9 @@ public class SCR_KeyBinds : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // ...
+        
     }
 
     void OnGUI()
@@ -56,10 +55,7 @@ public class SCR_KeyBinds : MonoBehaviour
     public void apply() 
     {
         SCR_M_InputManager.InputManager.ApplyKeys();
-
-
     }
-
 
     public void StartAssignment(string keyName)
     {
@@ -85,7 +81,6 @@ public class SCR_KeyBinds : MonoBehaviour
 
         yield return WaitForKey();
 
-        // Check if the new key is already assigned to another action
         if (SCR_M_InputManager.InputManager.IsKeyAssigned(newKey, keyName))
         {
             Debug.Log("Key already assigned. Choose a different key.");
