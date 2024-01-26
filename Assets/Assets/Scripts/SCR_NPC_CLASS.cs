@@ -1,25 +1,40 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
-using Unity.VisualScripting;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
-public class SCR_NPC_Trader : MonoBehaviour
+public class SCR_NPC_CLASS : MonoBehaviour
 {
-    [SerializeField] private bool active;
-    [SerializeField] private GameObject Banner;
-    [SerializeField] private GameObject Scroll;
-    [SerializeField] public SCR_Tools tools;
-    [SerializeField] private Button AcceptButton;
-    [SerializeField] private Button DenyButton;
-    public bool TransactionComplete;
+    private bool active;
+    private GameObject Banner;
+    private GameObject Scroll;
+    private SCR_Tools tools;
+    private Button AcceptButton;
+    private Button DenyButton;
+    private bool TransactionComplete;
     private float timer;
-    [SerializeField] private SCR_TradeGiver TradeGiver;
+    private SCR_TradeGiver TradeGiver;
 
     // Start is called before the first frame update
     void Start()
+    {
+        InitializeReferences();
+        SubscribeToButtonEvents();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        HandleTransactionCooldown();
+
+        if (active && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_BUTTON1) && !TransactionComplete)
+        {
+            QuestPreview();
+            gameObject.GetComponent<Animator>().SetBool("TransactionComplete", false);
+        }
+    }
+
+    void InitializeReferences()
     {
         timer = 0;
         TransactionComplete = false;
@@ -28,36 +43,31 @@ public class SCR_NPC_Trader : MonoBehaviour
         active = false;
         Banner = transform.GetChild(0).gameObject;
         Scroll = transform.GetChild(0).GetChild(0).GetChild(1).gameObject;
-        AcceptButton = Scroll.transform.GetChild(4).transform.GetComponent<Button>();
-        DenyButton = Scroll.transform.GetChild(5).transform.GetComponent<Button>();
+        AcceptButton = Scroll.transform.Find("Accept").GetComponent<Button>();
+        DenyButton = Scroll.transform.Find("Deny").GetComponent<Button>();
+    }
+
+    void SubscribeToButtonEvents()
+    {
         DenyButton.onClick.AddListener(delegate { TradeGiver.DenyReRoll(DenyButton); });
         AcceptButton.onClick.AddListener(delegate { TradeGiver.AcceptTrade(AcceptButton); });
     }
 
-    // Update is called once per frame
-    void Update()
+    void HandleTransactionCooldown()
     {
-        if (TransactionComplete) 
+        if (TransactionComplete)
         {
             CloseAll();
             tools.ResetCamera();
             timer += Time.deltaTime;
-            if (timer > 1) //2 minute cooldown
+            if (timer > 1) // 2 minute cooldown
             {
                 timer = 0;
                 TransactionComplete = false;
             }
         }
-
-
-        if (active == true && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_BUTTON1) && !TransactionComplete)
-        {
-            //Banner.SetActive(false);
-            QuestPreview();
-            transform.gameObject.GetComponent<Animator>().SetBool("TransactionComplete", false);
-        }
-
     }
+
     void QuestPreview()
     {
         transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -75,27 +85,27 @@ public class SCR_NPC_Trader : MonoBehaviour
     {
         if (Collider.gameObject.tag == "Player" && !TransactionComplete)
         {
-            
             Banner.SetActive(true);
             active = true;
             StartCoroutine(tools.Open(Banner));
             Collider.gameObject.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.SetActive(false);
-
         }
     }
+
     void OnTriggerExit2D(Collider2D Collider)
     {
         if (Collider.gameObject.tag == "Player" && !TransactionComplete)
         {
             CloseAll();
-            transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetComponent<TMP_Text>().text = "";
-            transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            transform.GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
-            transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(true);
+            ResetUIText();
             tools.ResetCamera();
             active = false;
-
         }
+    }
+
+    void ResetUIText()
+    {
+        transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetComponent<TMP_Text>().text = "";
     }
 
     public void CloseAll()
@@ -103,6 +113,5 @@ public class SCR_NPC_Trader : MonoBehaviour
         tools.AddToQueue(tools.Close(Scroll));
         tools.AddToQueue(tools.Close(Banner));
         StartCoroutine(tools.ProcessCodeQueue());
-
     }
 }

@@ -10,21 +10,25 @@ public class SCR_TradeManager : MonoBehaviour
         tradesList = new Trades[]
         {
             // Example trades creation
-            CreateTrade("Wood Bundle", 10, TradeItem.Wood),
-            CreateTrade("Meat Pack", 15, TradeItem.Meat),
-            CreateTrade("Gold Ingot", 25, TradeItem.Gold),
-         
+            CreateTrade("Wood", 10, TradeItem.Wood, 3, 1),
+           // CreateTrade("Meat Pack", 15, TradeItem.Meat, 3),
+            CreateTrade("Gold", 25, TradeItem.Gold, 3, 1),
+            CreateTrade("Gold", 50, TradeItem.Gold, 6, 1),
+            CreateTrade("Gold", 75, TradeItem.Gold, 9, 1),
+
          };
     }
 
     // Example method to create a trade and add it to the tradesList
-    private Trades CreateTrade(string description, int cost, TradeItem itemType)
+    private Trades CreateTrade(string description, int reward, TradeItem itemType, int amount, int levelRequirement)
     {
         Trades newTrade = new Trades
         {
+            Amount = amount,
             Description = description,
-            Reward = cost,
-            TradeItem = itemType
+            Reward = reward,
+            TradeItem = itemType,
+            LevelRequirement = levelRequirement
             // Add more properties as needed
         };
 

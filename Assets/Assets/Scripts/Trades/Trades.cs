@@ -8,6 +8,7 @@ public class Trades
     public TradeItem TradeItem;
     public string Description;
     public int Reward;
+    public int Amount;
     
     
     public int LevelRequirement;

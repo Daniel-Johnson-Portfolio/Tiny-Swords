@@ -68,6 +68,15 @@ using UnityEngine.UI;
 
             Debug.Log("Code queue is empty");
         }
+
+        public void ResetCamera()
+        {
+            Camera.main.GetComponent<CameraScript>().PlayerLocked = true;
+            Camera.main.orthographicSize = 5;
+        }
+
+
+
     }
 
 

@@ -4,6 +4,7 @@ using System.Security.Cryptography.X509Certificates;
 using Unity.VisualScripting;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class NPCscript : MonoBehaviour
 {
@@ -11,19 +12,27 @@ public class NPCscript : MonoBehaviour
     private GameObject Banner;
     private GameObject Scroll;
     [SerializeField] public SCR_Tools tools;
+    [SerializeField] private Button AcceptButton;
+    [SerializeField] private Button DenyButton;
+    [SerializeField] private QuestGiver QuestGiver;
     // Start is called before the first frame update
     void Start()
     {
+        QuestGiver = FindObjectOfType<QuestGiver>();
         tools = FindObjectOfType<SCR_Tools>();
         active = false;
         Banner = transform.GetChild(0).gameObject;
         Scroll = transform.GetChild(0).GetChild(0).GetChild(1).gameObject;
+        AcceptButton = Scroll.transform.GetChild(2).transform.GetComponent<Button>();
+        DenyButton = Scroll.transform.GetChild(3).transform.GetComponent<Button>();
+        DenyButton.onClick.AddListener(delegate { QuestGiver.DenyReRoll(DenyButton); });
+        AcceptButton.onClick.AddListener(delegate { QuestGiver.AcceptQuest(AcceptButton); });
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (active == true && SCR_M_InputManager.InputManager.InputRequest(KeyCode.E))
+        if (active == true && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_BUTTON1))
         {
             //Banner.SetActive(false);
             QuestPreview();
@@ -37,10 +46,10 @@ public class NPCscript : MonoBehaviour
         Scroll.SetActive(true);
         
         transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(false);
-        Camera myCamera = Camera.main;
-        myCamera.orthographicSize = 2;
-        myCamera.GetComponent<CameraScript>().PlayerLocked = false;
-        myCamera.transform.position = Banner.transform.position + new Vector3(-0.5f,0.5f,-15f);
+        
+        Camera.main.orthographicSize = 2;
+        Camera.main.GetComponent<CameraScript>().PlayerLocked = false;
+        Camera.main.transform.position = Banner.transform.position + new Vector3(-0.5f,0.5f,-15f);
         StartCoroutine(tools.Open(Scroll));
     }
 
@@ -65,8 +74,7 @@ public class NPCscript : MonoBehaviour
             transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = true;
             transform.GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
             transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(true);
-            Camera.main.GetComponent<CameraScript>().PlayerLocked = true;
-            Camera.main.orthographicSize = 5;
+            tools.ResetCamera();
             active = false;
 
         }

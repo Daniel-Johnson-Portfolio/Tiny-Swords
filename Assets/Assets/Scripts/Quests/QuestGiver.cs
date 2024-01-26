@@ -15,11 +15,13 @@ public class QuestGiver : MonoBehaviour
     private GameObject player;
     public GameObject CurrentNPC;
     [SerializeField] public SCR_Tools tools;
+    
 
     public bool IsQuestSelected { get; private set; } = false;
 
     private void Start()
     {
+        questManager = GameObject.Find("QuestManager").GetComponent<QuestManager>();
         tools = FindObjectOfType<SCR_Tools>();
         playerStats = FindObjectOfType<SCR_Player_Stats>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -45,10 +47,15 @@ public class QuestGiver : MonoBehaviour
         }
     }
 
-    public void DenyReRoll()
+    public void DenyReRoll(Button button)
     {
         IsQuestSelected = false;
         Selection();
+        CurrentNPC = button.gameObject.transform.parent.parent.parent.parent.gameObject;
+        tools.ResetCamera();
+        tools.AddToQueue(tools.Close(CurrentNPC.transform.GetChild(0).GetChild(0).GetChild(1).gameObject));
+        tools.AddToQueue(tools.Close(CurrentNPC.transform.GetChild(0).gameObject));
+        StartCoroutine(tools.ProcessCodeQueue());
     }
 
     private void Update()
@@ -59,6 +66,7 @@ public class QuestGiver : MonoBehaviour
         {
             TMP_Text npcTitle = NPC.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
             TMP_Text npcDescription = NPC.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<TMP_Text>();
+            TMP_Text npcReward = NPC.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetComponent<TMP_Text>();
 
             npcTitle.text = selectedQuest.Title;
             npcDescription.text = selectedQuest.Description;
@@ -74,13 +82,15 @@ public class QuestGiver : MonoBehaviour
 
     public void AcceptQuest(Button button)
     {
-        Camera.main.GetComponent<CameraScript>().PlayerLocked = true;
-        Camera.main.orthographicSize = 5;
+        tools.ResetCamera();
         selectedQuest.IsActive = true;
         player.GetComponent<SCR_Player_MasterController>().quest = selectedQuest;
         CurrentNPC = button.gameObject.transform.parent.parent.parent.parent.gameObject;
+
         // Open UI elements
         StartCoroutine(tools.Open(player.transform.GetChild(0).GetChild(0).gameObject));
         StartCoroutine(tools.Open(player.transform.GetChild(0).GetChild(1).gameObject));
+        StartCoroutine(tools.Close(CurrentNPC.transform.GetChild(0).gameObject));
     }
+    
 }
