@@ -12,6 +12,7 @@ public abstract class SCR_M_GIVER_A_CLASS : MonoBehaviour
     public GameObject CurrentNPC;
     [SerializeField] public SCR_Tools tools;
     protected string TAG;
+    
 
     protected virtual void StartInteraction()
     {

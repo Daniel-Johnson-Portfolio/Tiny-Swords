@@ -5,6 +5,7 @@ using UnityEngine;
 public class SCR_NPC_TRADER : SCR_NPC_CLASS
 {
     public bool TransactionComplete = false;
+    [SerializeField] protected SCR_TRADE_GIVER TradeGiver;
     private float timer = 0;
 
     void Start()
@@ -34,8 +35,8 @@ public class SCR_NPC_TRADER : SCR_NPC_CLASS
 
     protected override void SetButtons() 
     {
-        base.TradeGiver = FindObjectOfType<SCR_TradeGiver>();
-        base.denyButton.onClick.AddListener(delegate { TradeGiver.DenyReRoll(denyButton); });
-        base.acceptButton.onClick.AddListener(delegate { TradeGiver.AcceptTrade(acceptButton); });
+        TradeGiver = FindObjectOfType<SCR_TRADE_GIVER>();
+        base.denyButton.onClick.AddListener(delegate { TradeGiver.HandleDenyReRoll(denyButton); });
+        base.acceptButton.onClick.AddListener(delegate { TradeGiver.HandleAccept(acceptButton); });
     }
 }

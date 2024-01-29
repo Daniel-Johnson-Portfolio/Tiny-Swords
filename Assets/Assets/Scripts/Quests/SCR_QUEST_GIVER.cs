@@ -12,7 +12,7 @@ public class SCR_QUEST_GIVER : SCR_M_GIVER_A_CLASS
 
     private void Start()
     {
-        base.TAG = "NPC";
+        base.TAG = "NPC_QUEST";
         questManager = GameObject.Find("QuestManager").GetComponent<QuestManager>();
         base.StartInteraction();
         

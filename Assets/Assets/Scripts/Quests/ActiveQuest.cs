@@ -37,7 +37,7 @@ public class ActiveQuest : MonoBehaviour
 
     void Update()
     {
-        CurrentNPC = FindAnyObjectByType<QuestGiver>().GetComponent<QuestGiver>().CurrentNPC;
+        CurrentNPC = FindAnyObjectByType<QuestGiver>().GetComponent<SCR_QUEST_GIVER>().CurrentNPC;
         CurrentQuest = gameObject.GetComponent<SCR_Player_MasterController>().quest;
         Title.text = CurrentQuest.Title;
         Description.text = CurrentQuest.Description;
@@ -128,7 +128,6 @@ public class ActiveQuest : MonoBehaviour
     void Complete()
     {
         CurrentNPC.GetComponent<Animator>().SetBool("QuestComplete", true);
-
 
         playerStats.IncrementXP(CurrentQuest.XPReward);
         questGoal.CurrentAmount = 0;

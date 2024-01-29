@@ -6,7 +6,7 @@ public class SCR_NPC_CLASS : MonoBehaviour
 {
     [SerializeField] protected SCR_Tools tools;
     [SerializeField] private SCR_QUEST_GIVER questGiver;
-    [SerializeField] protected SCR_TradeGiver TradeGiver;
+    
 
     private bool active;
     [SerializeField] private GameObject banner;
@@ -50,6 +50,7 @@ public class SCR_NPC_CLASS : MonoBehaviour
     {
         if (active && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_BUTTON1))
         {
+            CloseInteraction();
             QuestPreview();
             transform.GetComponent<Animator>().SetBool("QuestComplete", false);
         }
@@ -57,40 +58,42 @@ public class SCR_NPC_CLASS : MonoBehaviour
 
     protected virtual void QuestPreview()
     {
-        banner.GetComponent<SpriteRenderer>().enabled = false;
         scroll.SetActive(true);
-
-        banner.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-
-        Camera.main.orthographicSize = 2;
-        Camera.main.GetComponent<CameraScript>().PlayerLocked = false;
-        Camera.main.transform.position = banner.transform.position + new Vector3(-0.5f, 0.5f, -15f);
+        tools.SetCamera(banner.transform.position + new Vector3(-0.5f, 0.5f, -15f));;
         StartCoroutine(tools.Open(scroll));
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.CompareTag("Player") && collider.GetComponent<SCR_Player_MasterController>().quest.IsActive == false)
+        if (collider.CompareTag("Player") && collider.GetComponent<SCR_Player_MasterController>().quest.IsActive == false && !active)
         {
-            banner.SetActive(true);
-            active = true;
-            StartCoroutine(tools.Open(banner));
+            ReadyBanner();
             collider.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.SetActive(false);
         }
     }
+
+    protected virtual void ReadyBanner() 
+    {
+        banner.GetComponent<SpriteRenderer>().enabled = true;
+        banner.transform.GetChild(0).Find("Text(E)").gameObject.SetActive(true);
+        banner.SetActive(true);
+        active = true;
+        StartCoroutine(tools.Open(banner));
+    }
+    protected virtual void CloseInteraction()
+    {
+        banner.GetComponent<SpriteRenderer>().enabled = false;
+        banner.transform.GetChild(0).Find("Text(E)").gameObject.SetActive(false);
+    }
+
 
     protected virtual void OnTriggerExit2D(Collider2D collider)
     {
         if (collider.CompareTag("Player"))
         {
-            StartCoroutine(tools.Close(scroll));
-            StartCoroutine(tools.Close(banner));
-
-            banner.GetComponent<SpriteRenderer>().enabled = true;
-            banner.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
-            banner.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(true);
             tools.ResetCamera();
             active = false;
+            CloseAll();
         }
     }
 

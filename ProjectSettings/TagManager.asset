@@ -10,6 +10,8 @@ TagManager:
   - Gold
   - Collectable
   - Trader
+  - NPC_QUEST
+  - NPC_TRADER
   layers:
   - Default
   - TransparentFX
