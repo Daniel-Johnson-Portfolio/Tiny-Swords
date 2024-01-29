@@ -101,6 +101,13 @@ public class SCR_NPC_CLASS : MonoBehaviour
     {
         tools.AddToQueue(tools.Close(scroll));
         tools.AddToQueue(tools.Close(banner));
+        tools.AddToQueue(Function());
         StartCoroutine(tools.ProcessCodeQueue());
+    }
+
+    private IEnumerator Function()
+    {
+        CloseInteraction();
+        yield return null;
     }
 }

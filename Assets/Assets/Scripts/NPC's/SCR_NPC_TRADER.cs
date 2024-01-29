@@ -32,6 +32,14 @@ public class SCR_NPC_TRADER : SCR_NPC_CLASS
         }
         
     }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            base.OnTriggerExit2D(collision);
+            TradeGiver.TradeError.text = "";
+        }
+    }
 
     protected override void SetButtons() 
     {

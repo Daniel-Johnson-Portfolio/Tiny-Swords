@@ -10,6 +10,7 @@ public class SCR_TRADE_GIVER : SCR_M_GIVER_A_CLASS
     [SerializeField] private Trades selectedTrade = null;
     public bool IsTradeSelected = false;
     private SCR_PlayerInventory playerInventory;
+    public TMP_Text TradeError;
 
     private void Start()
     {
@@ -59,8 +60,10 @@ public class SCR_TRADE_GIVER : SCR_M_GIVER_A_CLASS
 
     public override void HandleDenyReRoll(Button button)
     {
+        TradeError = button.transform.parent.transform.Find("TradeError").GetComponent<TMP_Text>();
         IsTradeSelected = false;
         base.HandleDenyReRoll(button);
+        TradeError.text = "";
     }
 
     public void OnClick()
@@ -71,7 +74,7 @@ public class SCR_TRADE_GIVER : SCR_M_GIVER_A_CLASS
 
     public override void HandleAccept(Button button)
     {
-        TMP_Text TradeError = button.transform.parent.transform.Find("TradeError").GetComponent<TMP_Text>();
+        TradeError = button.transform.parent.transform.Find("TradeError").GetComponent<TMP_Text>();
 
         switch (selectedTrade.TradeItem)
         {
