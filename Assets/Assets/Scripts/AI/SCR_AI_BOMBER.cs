@@ -21,7 +21,7 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
     }
 
 
-    protected override void Start()
+    protected void Start()
     {
         base.Start(); 
     }

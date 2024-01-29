@@ -1,117 +1,103 @@
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SCR_NPC_CLASS : MonoBehaviour
 {
+    [SerializeField] protected SCR_Tools tools;
+    [SerializeField] private SCR_QUEST_GIVER questGiver;
+    [SerializeField] protected SCR_TradeGiver TradeGiver;
+
     private bool active;
-    private GameObject Banner;
-    private GameObject Scroll;
-    private SCR_Tools tools;
-    private Button AcceptButton;
-    private Button DenyButton;
-    private bool TransactionComplete;
-    private float timer;
-    private SCR_TradeGiver TradeGiver;
+    [SerializeField] private GameObject banner;
+    private GameObject scroll;
+
+    protected Button acceptButton;
+    protected Button denyButton;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        InitializeReferences();
-        SubscribeToButtonEvents();
+        InitializeNPC();
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
-        HandleTransactionCooldown();
-
-        if (active && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_BUTTON1) && !TransactionComplete)
-        {
-            QuestPreview();
-            gameObject.GetComponent<Animator>().SetBool("TransactionComplete", false);
-        }
+        HandleInteractionInput();
     }
 
-    void InitializeReferences()
+    protected virtual void SetButtons()
     {
-        timer = 0;
-        TransactionComplete = false;
-        TradeGiver = FindObjectOfType<SCR_TradeGiver>();
+        questGiver = FindObjectOfType<SCR_QUEST_GIVER>();
+        denyButton.onClick.AddListener(() => questGiver?.HandleDenyReRoll(denyButton));
+        acceptButton.onClick.AddListener(() => questGiver?.HandleAccept(acceptButton));
+    }
+
+    protected virtual void InitializeNPC()
+    {
+        
         tools = FindObjectOfType<SCR_Tools>();
         active = false;
-        Banner = transform.GetChild(0).gameObject;
-        Scroll = transform.GetChild(0).GetChild(0).GetChild(1).gameObject;
-        AcceptButton = Scroll.transform.Find("Accept").GetComponent<Button>();
-        DenyButton = Scroll.transform.Find("Deny").GetComponent<Button>();
+        banner = transform.GetChild(0).gameObject;
+        scroll = banner.transform.GetChild(0).GetChild(1).gameObject;
+        acceptButton = scroll.transform.Find("Accept").GetComponent<Button>();
+        denyButton = scroll.transform.Find("Deny").GetComponent<Button>();  //MayCauseNullReferenceException
+        SetButtons();
     }
 
-    void SubscribeToButtonEvents()
+    protected virtual void HandleInteractionInput()
     {
-        DenyButton.onClick.AddListener(delegate { TradeGiver.DenyReRoll(DenyButton); });
-        AcceptButton.onClick.AddListener(delegate { TradeGiver.AcceptTrade(AcceptButton); });
-    }
-
-    void HandleTransactionCooldown()
-    {
-        if (TransactionComplete)
+        if (active && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_BUTTON1))
         {
-            CloseAll();
-            tools.ResetCamera();
-            timer += Time.deltaTime;
-            if (timer > 1) // 2 minute cooldown
-            {
-                timer = 0;
-                TransactionComplete = false;
-            }
+            QuestPreview();
+            transform.GetComponent<Animator>().SetBool("QuestComplete", false);
         }
     }
 
-    void QuestPreview()
+    protected virtual void QuestPreview()
     {
-        transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        Scroll.SetActive(true);
+        banner.GetComponent<SpriteRenderer>().enabled = false;
+        scroll.SetActive(true);
 
-        transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(false);
-        Camera myCamera = Camera.main;
-        myCamera.orthographicSize = 2;
-        myCamera.GetComponent<CameraScript>().PlayerLocked = false;
-        myCamera.transform.position = Banner.transform.position + new Vector3(-0.5f, 0.5f, -15f);
-        StartCoroutine(tools.Open(Scroll));
+        banner.transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+
+        Camera.main.orthographicSize = 2;
+        Camera.main.GetComponent<CameraScript>().PlayerLocked = false;
+        Camera.main.transform.position = banner.transform.position + new Vector3(-0.5f, 0.5f, -15f);
+        StartCoroutine(tools.Open(scroll));
     }
 
-    void OnTriggerEnter2D(Collider2D Collider)
+    protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
-        if (Collider.gameObject.tag == "Player" && !TransactionComplete)
+        if (collider.CompareTag("Player") && collider.GetComponent<SCR_Player_MasterController>().quest.IsActive == false)
         {
-            Banner.SetActive(true);
+            banner.SetActive(true);
             active = true;
-            StartCoroutine(tools.Open(Banner));
-            Collider.gameObject.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.SetActive(false);
+            StartCoroutine(tools.Open(banner));
+            collider.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.SetActive(false);
         }
     }
 
-    void OnTriggerExit2D(Collider2D Collider)
+    protected virtual void OnTriggerExit2D(Collider2D collider)
     {
-        if (Collider.gameObject.tag == "Player" && !TransactionComplete)
+        if (collider.CompareTag("Player"))
         {
-            CloseAll();
-            ResetUIText();
+            StartCoroutine(tools.Close(scroll));
+            StartCoroutine(tools.Close(banner));
+
+            banner.GetComponent<SpriteRenderer>().enabled = true;
+            banner.transform.GetChild(0).GetChild(0).GetChild(1).gameObject.SetActive(false);
+            banner.transform.GetChild(0).GetChild(0).GetChild(0).gameObject.SetActive(true);
             tools.ResetCamera();
             active = false;
         }
     }
 
-    void ResetUIText()
+    protected virtual void CloseAll()
     {
-        transform.GetChild(0).GetChild(0).GetChild(1).GetChild(3).GetComponent<TMP_Text>().text = "";
-    }
-
-    public void CloseAll()
-    {
-        tools.AddToQueue(tools.Close(Scroll));
-        tools.AddToQueue(tools.Close(Banner));
+        tools.AddToQueue(tools.Close(scroll));
+        tools.AddToQueue(tools.Close(banner));
         StartCoroutine(tools.ProcessCodeQueue());
     }
 }

@@ -49,7 +49,7 @@ public class SCR_TradeGiver : MonoBehaviour
     public void DenyReRoll(Button button)
     {
         button.transform.parent.transform.GetChild(3).GetComponent<TMP_Text>().text = "";
-        button.transform.parent.parent.parent.parent.gameObject.GetComponent<SCR_NPC_Trader>().TransactionComplete = true;
+        button.transform.parent.parent.parent.parent.gameObject.GetComponent<SCR_NPC_TRADER>().TransactionComplete = true;
         IsTradeSelected = false;
         Selection();
     }
@@ -89,7 +89,7 @@ public class SCR_TradeGiver : MonoBehaviour
                         {
                             playerInventory.PlayerInventory.Wood -= selectedTrade.Amount;
                             playerStats.IncrementXP(selectedTrade.Reward);
-                            button.transform.parent.parent.parent.parent.gameObject.GetComponent<SCR_NPC_Trader>().TransactionComplete = true;
+                            button.transform.parent.parent.parent.parent.gameObject.GetComponent<SCR_NPC_TRADER>().TransactionComplete = true;
                             IsTradeSelected = false;
                             Selection();
                         }
@@ -105,7 +105,7 @@ public class SCR_TradeGiver : MonoBehaviour
                         {
                             playerInventory.PlayerInventory.Gold -= selectedTrade.Amount;
                             playerStats.IncrementXP(selectedTrade.Reward);
-                            button.transform.parent.parent.parent.parent.gameObject.GetComponent<SCR_NPC_Trader>().TransactionComplete = true;
+                            button.transform.parent.parent.parent.parent.gameObject.GetComponent<SCR_NPC_TRADER>().TransactionComplete = true;
                             IsTradeSelected = false;
                             Selection();
                         }
