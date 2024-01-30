@@ -14,7 +14,7 @@ public class SCR_TRADE_GIVER : SCR_M_GIVER_A_CLASS
 
     private void Start()
     {
-        base.TAG = "Trader";
+        base.TAG = "NPC_TRADER";
         playerInventory = FindObjectOfType<SCR_PlayerInventory>();
         tradeManager = GameObject.Find("TradeManager").GetComponent<SCR_TradeManager>();
         base.StartInteraction();
@@ -47,9 +47,9 @@ public class SCR_TRADE_GIVER : SCR_M_GIVER_A_CLASS
         Selection();
         foreach (GameObject Trader in Traders)
         {
-            TMP_Text npcTitle = Trader.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_Text>();
-            TMP_Text npcDescription = Trader.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<TMP_Text>();
-            TMP_Text npcReward = Trader.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetComponent<TMP_Text>();
+            TMP_Text npcTitle = Trader.transform.GetChild(0).GetChild(0).GetChild(1).Find("TradeTitle").GetComponent<TMP_Text>();
+            TMP_Text npcDescription = Trader.transform.GetChild(0).GetChild(0).GetChild(1).Find("TradeDescription").GetComponent<TMP_Text>();
+            TMP_Text npcReward = Trader.transform.GetChild(0).GetChild(0).GetChild(1).Find("TradeReward").GetComponent<TMP_Text>();
 
             npcTitle.text = "Trade";
             npcDescription.text = selectedTrade.Amount.ToString() + " " + selectedTrade.Description;

@@ -12,6 +12,7 @@ TagManager:
   - Trader
   - NPC_QUEST
   - NPC_TRADER
+  - NPC_FOLLOWER
   layers:
   - Default
   - TransparentFX
