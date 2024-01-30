@@ -72,7 +72,7 @@ public class SCR_M_InputManager : MonoBehaviour
             Debug.Log(key);
 
             assignedKeys.Remove(key);
-        }
+        } 
     }
     public void ApplyKeys() 
     {
