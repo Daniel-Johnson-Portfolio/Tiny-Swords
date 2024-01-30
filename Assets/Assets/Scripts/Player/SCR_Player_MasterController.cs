@@ -4,36 +4,40 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class SCR_Player_MasterController : MonoBehaviour
 {
-
-    [SerializeField] private float PlayerMovementSpeed = 2f;
-    [SerializeField] private int MaxHealth = 1000;
-    [SerializeField] private TMP_Text HealthDisplay;
-    [SerializeField] private bool InventoryOpen;
-    [SerializeField] private int PlayerLevel;
-    [SerializeField] private float CurrentXP;
-
-    private Animator Animator;
-
-    private Rigidbody2D PlayerRigidbody;
-    private Transform parentTransform;
-    public Vector3 PlayerMovmentDirection;
-    public Quest quest;
-
     public int CurrentHealth
     {
         get { return currentHealth; }
         set { currentHealth = Mathf.Clamp(value, 0, MaxHealth); }
     }
-    private int currentHealth;
 
+    [Header("Player Settings")]
+    [SerializeField] private float PlayerMovementSpeed = 2f;
+    [SerializeField] private int MaxHealth = 1000;
+    [SerializeField] private int PlayerLevel;
+    [SerializeField] private float CurrentXP;
+    [SerializeField] public Vector3 PlayerMovmentDirection;
+    [SerializeField] private int currentHealth;
 
+    [Header("Objects")]
+    [SerializeField] private TMP_Text HealthDisplay;
+    [SerializeField] private Animator Animator;
+    [SerializeField] private Rigidbody2D PlayerRigidbody;
+    [SerializeField] private Transform parentTransform;
+    [SerializeField] private SCR_Tools tools;
 
-    // Start is called before the first frame update
+    [Header("Conditions")]
+    [SerializeField] private bool InventoryOpen;
+
+    [Header("Quest")]
+    [SerializeField] public Quest quest;
+
     void Start()
     {
+        tools = FindObjectOfType<SCR_Tools>();
         PlayerLevel = PlayerPrefs.GetInt("PlayerLevel", 1);
         transform.GetChild(0).GetChild(4).gameObject.SetActive(true);
         StartCoroutine(FadeIn(transform.GetChild(0).GetChild(4).GetComponent<Image>()));
@@ -85,6 +89,13 @@ public class SCR_Player_MasterController : MonoBehaviour
         if (Input.GetKey(SCR_M_InputManager.InputManager.INPUT_RIGHT))
         {
             transform.position += (Vector3.right * Time.deltaTime) * PlayerMovementSpeed;
+        }
+        if (Input.GetKey(SCR_M_InputManager.InputManager.INPUT_MENU)) 
+        {
+            GameObject Menu = transform.GetChild(0).Find("Menu").gameObject;
+            Menu.SetActive(true);
+            Button button = Menu.transform.Find("Exit").GetComponent<Button>();
+            button.onClick.AddListener(() => tools?.ReturnToMain());
         }
         else
         {

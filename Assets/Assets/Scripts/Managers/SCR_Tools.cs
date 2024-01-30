@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SCR_Tools : MonoBehaviour
@@ -82,6 +83,17 @@ public class SCR_Tools : MonoBehaviour
 
     }
 
+    public void ReturnToMain() 
+    {
+        if (!SceneManager.GetSceneByName("MainMenu").IsValid()) 
+        {
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Additive);
+            SceneManager.UnloadSceneAsync("SampleScene");
+            SceneManager.UnloadSceneAsync("Player");
+
+        }
+        
+    }
 
 
 }

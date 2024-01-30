@@ -6,18 +6,18 @@ using UnityEngine.UI;
 
 public class SCR_QUEST_GIVER : SCR_M_GIVER_A_CLASS
 {
-    public QuestManager questManager;
+    [Header("Objects")]
+    [SerializeField] public QuestManager questManager;
+
+    [Header("Quest")]
     [SerializeField] private Quest selectedQuest = null;
-    public bool IsQuestSelected { get; private set; } = false;
+    [SerializeField] public bool IsQuestSelected { get; private set; } = false;
 
     private void Start()
     {
         base.TAG = "NPC_QUEST";
         questManager = GameObject.Find("QuestManager").GetComponent<QuestManager>();
         base.StartInteraction();
-        
-        
-        // Other initialization specific to QuestGiver...
     }
 
     protected override void Selection()
@@ -42,7 +42,7 @@ public class SCR_QUEST_GIVER : SCR_M_GIVER_A_CLASS
         Description.text = selectedQuest.Description;
 
     }
-    void Update()
+    protected override void Update()
     {
         base.Update();
     }

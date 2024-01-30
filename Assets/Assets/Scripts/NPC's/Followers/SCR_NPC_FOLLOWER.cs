@@ -6,16 +6,21 @@ using static UnityEngine.GraphicsBuffer;
 
 public class SCR_NPC_FOLLOWER : SCR_NPC_CLASS
 {
-    [SerializeField] protected SCR_FOLLOW_ABILITY_GIVER FA_Giver;
-    public bool CurrentlyActive = false;
-    protected NavMeshAgent agent;
+    [Header("Agent Settings")]
     [SerializeField] private float AcceptanceDistance = 1.5f;
     [SerializeField] float distanceToPlayer;
+    [SerializeField] private NavMeshAgent agent;
+
+    [Header("Objects")]
+    [SerializeField] protected SCR_FOLLOW_ABILITY_GIVER FA_Giver;
     [SerializeField] GameObject player;
-    private bool Cooldown = true;
-    private Animator animator;
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Animator animator;
+
+    [Header("Conditions")]
+    [SerializeField] public bool CurrentlyActive = false;
+    [SerializeField] private bool Cooldown = true;
+
+    protected override void Start()
     {
         animator = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
@@ -55,7 +60,11 @@ public class SCR_NPC_FOLLOWER : SCR_NPC_CLASS
         if (!CurrentlyActive)
         {
             base.OnTriggerExit2D(collider);
-            FA_Giver.FAError.text = "";
+            if (FA_Giver.FAError != null)
+            {
+                FA_Giver.FAError.text = "";
+            }
+            
         }
     }
 

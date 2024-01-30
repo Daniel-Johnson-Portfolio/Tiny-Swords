@@ -6,11 +6,15 @@ using UnityEngine.UI;
 
 public class SCR_FOLLOW_ABILITY_GIVER : SCR_M_GIVER_A_CLASS
 {
-    public SCR_FA_MANAGER FA_Manager;
-    public FollowerAbilities SelectedFA = null;
-    private bool IsFaSelected = false;
-    public TMP_Text FAError;
-    private SCR_PlayerInventory playerInventory;
+    [Header("Objects")]
+    [SerializeField] public SCR_FA_MANAGER FA_Manager;
+    [SerializeField] private bool IsFaSelected = false;
+    [SerializeField] public TMP_Text FAError;
+    [SerializeField] private SCR_PlayerInventory playerInventory;
+
+    [Header("Follower Abilities")]
+    [SerializeField] public FollowerAbilities SelectedFA = null;
+
     // Start is called before the first frame update
     void Start()
     {

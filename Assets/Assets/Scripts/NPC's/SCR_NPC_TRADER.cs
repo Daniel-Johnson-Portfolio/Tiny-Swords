@@ -37,7 +37,11 @@ public class SCR_NPC_TRADER : SCR_NPC_CLASS
         if (collision.gameObject.tag == "Player")
         {
             base.OnTriggerExit2D(collision);
-            TradeGiver.TradeError.text = "";
+            if (TradeGiver.TradeError != null)
+            {
+                TradeGiver.TradeError.text = "";
+            }
+                
         }
     }
 
