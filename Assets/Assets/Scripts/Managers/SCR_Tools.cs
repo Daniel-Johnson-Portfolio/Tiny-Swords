@@ -11,20 +11,21 @@ public class SCR_Tools : MonoBehaviour
 
     public IEnumerator Open(GameObject toOpen)
     {
-        while (toOpen.transform.localScale != new Vector3(1, 1, 1))
-        {
-            if (toOpen.transform.localScale.x == 1)
-            {
-                toOpen.transform.localScale += new Vector3(0f, 0.1f, 0f);
-            }
-            if (toOpen.transform.localScale.y == 1)
-            {
-                toOpen.transform.localScale += new Vector3(0.1f, 0f, 0f);
-            }
+        Vector3 targetScale = new Vector3(1f, 1f, 1f);
+        float duration = 0.5f; // Duration of the animation
+        float elapsedTime = 0;
 
-            yield return new WaitForSeconds(0.001f);
+        while (elapsedTime < duration)
+        {
+            toOpen.transform.localScale = Vector3.Lerp(toOpen.transform.localScale, targetScale, (elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+
+        toOpen.transform.localScale = targetScale; // Ensure target scale is set
     }
+
+
     public IEnumerator Close(GameObject ToClose)
     {
         while (ToClose.transform.localScale.x > 0)
@@ -34,15 +35,22 @@ public class SCR_Tools : MonoBehaviour
 
         }
     }
-    public IEnumerator FadeIn(Image ToFade)
+    public IEnumerator FadeIn(Image toFade)
     {
-        ToFade.gameObject.SetActive(true);
-        while (ToFade.color != new Color(0, 0, 0, 1))
+        Color startColor = toFade.color;
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0);
+        float duration = 1f; // Duration of the fade
+        float elapsedTime = 0;
+
+        while (elapsedTime < duration)
         {
-            ToFade.color = ToFade.color + new Color(0, 0, 0, 0.01f);
-            yield return new WaitForSeconds(0.01f);
+            toFade.color = Color.Lerp(startColor, endColor, (elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
-        ToFade.gameObject.SetActive(true);
+
+        toFade.color = endColor; // Ensure final color is set
+        toFade.gameObject.SetActive(false);
     }
     public IEnumerator FadeOut(Image ToFade)
     {

@@ -10,7 +10,7 @@ public class SCR_PlayerCombat : MonoBehaviour
     private float AttackRadiusSize = 2f;
     private Animator animator;
     public bool isAttacking;
-    private Vector3 PlayerMovmentDirection;
+    private Vector2 PlayerMovmentDirection;
     [SerializeField] protected SCR_Player_Stats playerStats;
 
     private void Start()

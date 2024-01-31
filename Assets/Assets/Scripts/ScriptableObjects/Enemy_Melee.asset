@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefe6e79d20441f40b5961cd6df76872, type: 3}
+  m_Name: Enemy_Melee
+  m_EditorClassIdentifier: 
+  enemyType: 0
+  AttackRadius: 0
+  AttackCooldown: 0
+  MaxHealth: 0
+  Enemy: {fileID: 3711324941783177884, guid: 03d008df0c6f4bd46bedb916cbe1e91e, type: 3}
