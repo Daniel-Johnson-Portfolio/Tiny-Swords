@@ -210,6 +210,8 @@ MonoBehaviour:
   Target: {fileID: 0}
   playerController: {fileID: 0}
   distanceToPlayer: 0
+  playerStats: {fileID: 0}
+  Player: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   shouldMoveRandomly: 0
@@ -218,6 +220,7 @@ MonoBehaviour:
   timeSinceLastMove: 0
   timeSinceTrigger: 0
   Trigger: 0
+  aiSettings: {fileID: 11400000, guid: 55a70174ac52f0f45be1d7ccaf00644b, type: 2}
 --- !u!50 &509409371234215056
 Rigidbody2D:
   serializedVersion: 4

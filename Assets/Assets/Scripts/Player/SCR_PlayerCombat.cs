@@ -6,40 +6,40 @@ public class SCR_PlayerCombat : MonoBehaviour
 {
     [SerializeField] private float timeSinceLastAttack;
     private const float attackCooldown = 1.21f;
-
-    private float AttackRadiusSize = 2f;
+    private float attackRadiusSize = 2f;
     private Animator animator;
     public bool isAttacking;
-    private Vector2 PlayerMovmentDirection;
-    [SerializeField] protected SCR_Player_Stats playerStats;
+    private Vector2 playerMovementDirection;
+    [SerializeField] private SCR_Player_Stats playerStats;
+    private SCR_Player_MasterController playerMasterController;
 
     private void Start()
     {
         animator = GetComponent<Animator>();
         playerStats = FindObjectOfType<SCR_Player_Stats>();
+        playerMasterController = GetComponent<SCR_Player_MasterController>();
     }
 
     private void Update()
     {
         AnimChecker();
-        PlayerMovmentDirection = GetComponent<SCR_Player_MasterController>().GetPlayerMovementDirection();
+        playerMovementDirection = playerMasterController.GetPlayerMovementDirection();
         HandleAttackInput();
-        HandleCombat();
+        if (isAttacking) HandleCombat();
         timeSinceLastAttack += Time.deltaTime;
     }
 
     void HandleAttackInput()
     {
-        if (timeSinceLastAttack >= attackCooldown)
-        {
-            isAttacking = false;
-        }
-
         if (timeSinceLastAttack >= attackCooldown && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_ATTACK))
         {
             isAttacking = true;
             timeSinceLastAttack = 0f;
             Attack();
+        }
+        else if (timeSinceLastAttack >= attackCooldown)
+        {
+            isAttacking = false;
         }
     }
 
@@ -59,14 +59,13 @@ public class SCR_PlayerCombat : MonoBehaviour
                 {
                     float distanceToPlayer = Vector2.Distance(transform.position, touchingObject.transform.position);
 
-                    // Attack if within the AttackRadius
-                    if (distanceToPlayer <= AttackRadiusSize && timeSinceLastAttack >= attackCooldown && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_ATTACK))
+                    if (distanceToPlayer <= attackRadiusSize && timeSinceLastAttack >= attackCooldown && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_ATTACK))
                     {
                         Attack();
                         timeSinceLastAttack = 0f;
 
                     }
-                    if (distanceToPlayer <= AttackRadiusSize && timeSinceLastAttack >= 0.5f && isAttacking)
+                    if (distanceToPlayer <= attackRadiusSize && timeSinceLastAttack >= 0.5f && isAttacking)
                     {
                         SCR_AI_CLASS aiComponent = touchingObject.GetComponent<SCR_AI_CLASS>();
 
@@ -84,24 +83,13 @@ public class SCR_PlayerCombat : MonoBehaviour
 
     void Attack()
     {
-        if (!animator.GetCurrentAnimatorStateInfo(0).IsName("AttackFront") && !animator.GetCurrentAnimatorStateInfo(0).IsName("AttackDown"))
-        {
-            if (Mathf.Abs(PlayerMovmentDirection.x) > Mathf.Abs(PlayerMovmentDirection.y))
-            {
-                animator.SetBool("AttackFront", true);
-            }
-            if (Mathf.Abs(PlayerMovmentDirection.x) < Mathf.Abs(PlayerMovmentDirection.y))
-            {
-                animator.SetBool("AttackUp", PlayerMovmentDirection.y > 0);
-                animator.SetBool("AttackDown", PlayerMovmentDirection.y < 0);
-            }
-            else
-            {
-                animator.SetBool("AttackFront", true);
-            }
-        }
-
+        animator.SetBool("AttackFront", Mathf.Abs(playerMovementDirection.x) >= Mathf.Abs(playerMovementDirection.y));
+        animator.SetBool("AttackUp", playerMovementDirection.y > 0 && Mathf.Abs(playerMovementDirection.y) > Mathf.Abs(playerMovementDirection.x));
+        animator.SetBool("AttackDown", playerMovementDirection.y < 0 && Mathf.Abs(playerMovementDirection.y) > Mathf.Abs(playerMovementDirection.x));
     }
+
+    // Consider removing AnimChecker if you can handle animation transitions and conditions within your Animator Controller.
+
 
     void AnimChecker()
     {
@@ -126,3 +114,5 @@ public class SCR_PlayerCombat : MonoBehaviour
     }
 
 }
+
+

@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class SCR_AI_THROWER_TOWER : SCR_AI_THROWER
 {
-    protected override float AttackRadiusSize
-    {
-        get { return 15f; }
-    }
-    protected override float attackCooldown
-    {
-        get { return 5f; }
-    }
+
+    private AISettings aiSettings;
 
     protected override void Start()
     {
+        InitializeAISettings(aiSettings);
         base.Start();
     }
 

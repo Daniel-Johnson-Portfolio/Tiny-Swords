@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class SCR_AI_THROWER : SCR_AI_CLASS
 {
-    protected override float AttackRadiusSize
-    {
-        get { return 5f; }
-    }
-    protected override float attackCooldown
-    {
-        get { return 5f; }
-    }
+
+    [SerializeField] private AISettings aiSettings;
 
     protected override void Start()
     {
+        InitializeAISettings(aiSettings);
         base.Start(); 
         
     }
@@ -30,7 +25,7 @@ public class SCR_AI_THROWER : SCR_AI_CLASS
         animator.SetBool("Throw", true);
 
         Vector3 aiPosition = transform.position + new Vector3(0, 1, 0);
-        if (distanceToPlayer <= AttackRadiusSize && timeSinceLastAttack >= 0.5f)
+        if (distanceToPlayer <= aiSettings.attackRadiusSize && timeSinceLastAttack >= 0.5f)
         {
             GameObject DynamiteInstance = Instantiate(Resources.Load<GameObject>("Dynamite"), aiPosition, Quaternion.identity);
         }
@@ -48,12 +43,12 @@ public class SCR_AI_THROWER : SCR_AI_CLASS
     }
     protected override void PlayerSpotted()
     {
-        if (distanceToPlayer <= (AttackRadiusSize / 2))
+        if (distanceToPlayer <= (aiSettings.attackRadiusSize / 2))
         {
             agent.ResetPath();
         }
 
-        if (distanceToPlayer <= AttackRadiusSize && timeSinceLastAttack >= attackCooldown)
+        if (distanceToPlayer <= aiSettings.attackRadiusSize && timeSinceLastAttack >= aiSettings.attackCooldown)
         {
             Attack();
             timeSinceLastAttack = 0f;

@@ -1,39 +1,36 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class SCR_AI_CLASS : MonoBehaviour
 {
-    protected virtual float AttackRadiusSize
-    {
-        get { return 1f; }
-    }
-    protected virtual float attackCooldown
-    {
-        get { return 1f; }
-    }
-    protected virtual int MaxHealth
-    {
-        get { return 1; }
-    }
-
     [Header("Target Settings")]
     [SerializeField] protected Transform Target;
     [SerializeField] protected SCR_Player_MasterController playerController;
     [SerializeField] protected float distanceToPlayer;
     [SerializeField] protected SCR_Player_Stats playerStats;
+    [SerializeField] protected GameObject Player;
 
     [Header("AI Settings")]
+    
     [SerializeField] protected NavMeshAgent agent;
-    [SerializeField] protected const float MoveRadius = 15f;
     [SerializeField] protected Animator animator;
     [SerializeField] protected bool shouldMoveRandomly;
-    [SerializeField] protected const float IndividualMoveRadius = 5f;
     public int AICurrentHealth;
 
     [Header("AI Attack Setings")]
     [SerializeField] protected float timeSinceLastAttack = 0f;
     [SerializeField] protected float timeSinceLastMove = 0f;
-    [SerializeField] protected const float randomMoveCooldown = 3f;
+
+    [SerializeField] protected AISettings aiSettings { get; private set; }
+    protected List<GameObject> gameObjects = new List<GameObject>();
+
+    protected void InitializeAISettings(AISettings settings)
+    {
+        aiSettings = settings;
+    }
+
 
     protected virtual void Start()
     {
@@ -41,7 +38,7 @@ public class SCR_AI_CLASS : MonoBehaviour
         Target = GameObject.FindWithTag("Player").transform;
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        AICurrentHealth = MaxHealth;
+        AICurrentHealth = aiSettings.maxHealth;
         agent.updateRotation = false;
         agent.updateUpAxis = false;
         SetRandomDestination();
@@ -50,68 +47,80 @@ public class SCR_AI_CLASS : MonoBehaviour
     protected virtual void Update()
     {
         AnimChecker();
-
-        float maxSpeed = Mathf.Max(agent.velocity.magnitude, 0f);
-        animator.SetFloat("Speed", maxSpeed);
-
         UpdateRotation();
+        HandleMovement();
+        UpdateTimers();
+    }
 
-        Collider2D[] overlappingColliders = new Collider2D[50];
-        int numOverlapping = Physics2D.OverlapCollider(agent.GetComponent<Collider2D>(), new ContactFilter2D(), overlappingColliders);
-
-        shouldMoveRandomly = true;
-
-        for (int i = 0; i < numOverlapping; i++)
+    private void HandleMovement()
+    {
+        animator.SetFloat("Speed", Mathf.Max(agent.velocity.magnitude, 0f));
+       
+        if (playerController != null)
         {
-            Collider2D touchingCollider = overlappingColliders[i];
-            GameObject touchingObject = touchingCollider.gameObject;
+            distanceToPlayer = Vector2.Distance(transform.position, Player.transform.position);
 
-            if (touchingObject.CompareTag("Player"))
+            if (distanceToPlayer <= aiSettings.moveRadius)
             {
-                playerController = touchingObject.GetComponent<SCR_Player_MasterController>();
-
-                if (playerController != null)
-                {
-                    shouldMoveRandomly = false;
-                    distanceToPlayer = Vector2.Distance(transform.position, touchingObject.transform.position);
-
-                    if (distanceToPlayer <= MoveRadius)
-                    {
-                        agent.SetDestination(Target.position);
-                    }
-
-                    PlayerSpotted();
-                    
-                }
+                agent.SetDestination(Target.position);
             }
+            PlayerSpotted();
         }
 
-        if (shouldMoveRandomly && timeSinceLastMove >= randomMoveCooldown)
+        if (shouldMoveRandomly && timeSinceLastMove >= aiSettings.randomMoveCooldown)
         {
             SetRandomDestination();
             timeSinceLastMove = 0f;
         }
+    }
 
+
+    private void UpdateTimers()
+    {
         timeSinceLastMove += Time.deltaTime;
-
-        HealthCheck();
         timeSinceLastAttack += Time.deltaTime;
     }
+
+
+    protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+        // Player has entered the detection area
+            playerController = other.GetComponent<SCR_Player_MasterController>();
+            shouldMoveRandomly = false;
+            Player = other.gameObject;
+            
+        }
+        
+    }
+
+    protected virtual void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            // Player has exited the detection area
+            shouldMoveRandomly = true;
+        }
+    }
+
+
 
     public virtual void DamageAI(int damage)
     {
         AICurrentHealth -= damage;
+        HealthCheck();
     }
 
     protected virtual void PlayerSpotted()
     {
-        if (distanceToPlayer <= AttackRadiusSize && timeSinceLastAttack >= attackCooldown)
+        if (distanceToPlayer <= aiSettings.attackRadiusSize && timeSinceLastAttack >= aiSettings.attackCooldown)
         {
             Attack();
             timeSinceLastAttack = 0f;
         }
 
-        if (distanceToPlayer <= AttackRadiusSize && timeSinceLastAttack >= 0.5f)
+        if (distanceToPlayer <= aiSettings.attackRadiusSize && timeSinceLastAttack >= 0.5f)
         {
             playerController.CurrentHealth -= 2;
             playerStats.IncrementDamageTaken(2);
@@ -144,18 +153,27 @@ public class SCR_AI_CLASS : MonoBehaviour
 
         if (Mathf.Abs(horizontalInput) > Mathf.Abs(verticalInput))
         {
-            animator.SetBool("AttackFront", true);
+            if (!animator.GetBool("AttackFront"))
+            {
+                animator.SetBool("AttackFront", true);
+            }
         }
         else
         {
-            animator.SetBool("AttackUp", verticalInput > 0);
-            animator.SetBool("AttackDown", verticalInput < 0);
+            if (!animator.GetBool("AttackUp")) 
+            {
+                animator.SetBool("AttackUp", verticalInput > 0);
+            }
+            if (!animator.GetBool("AttackDown"))
+            {
+                animator.SetBool("AttackDown", verticalInput < 0);
+            }
         }
     }
 
     protected virtual void SetRandomDestination()
     {
-        Vector2 randomPoint = Random.insideUnitCircle * IndividualMoveRadius;
+        Vector2 randomPoint = Random.insideUnitCircle * aiSettings.individualMoveRadius;
         Vector3 randomDestination = new Vector3(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
         agent.SetDestination(randomDestination);
     }

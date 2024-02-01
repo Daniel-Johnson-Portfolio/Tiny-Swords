@@ -7,22 +7,13 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
     private bool Exploded = false;
     [SerializeField] private float timeSinceTrigger = 0f;
     [SerializeField] bool Trigger = false;
-    protected override int MaxHealth
-    {
-        get { return 1000; }
-    }
-    protected override float attackCooldown
-    {
-        get { return 2; }
-    }
-    protected override float AttackRadiusSize
-    {
-        get { return 1f; }
-    }
+    [SerializeField] private AISettings aiSettings;
 
+    private List<SCR_AI_CLASS> enemies = new List<SCR_AI_CLASS>();
 
     protected void Start()
     {
+        InitializeAISettings(aiSettings);
         base.Start(); 
     }
 
@@ -49,13 +40,13 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
     }
     protected override void PlayerSpotted()
     {
-        if (distanceToPlayer <= AttackRadiusSize)
+        if (distanceToPlayer <= aiSettings.attackRadiusSize)
         {
             Attack();
             
         }
 
-        if (timeSinceTrigger >= attackCooldown && Trigger == true)
+        if (timeSinceTrigger >= aiSettings.attackCooldown && Trigger == true)
         {
             animator.SetBool("Trigger", false);
         }
@@ -92,46 +83,49 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
         }
     }
 
-    void DamagePlayer()
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        Collider2D[] overlappingColliders = new Collider2D[50];
-        ContactFilter2D contactFilter = new ContactFilter2D();
-        int numOverlapping = Physics2D.OverlapCollider(agent.GetComponent<Collider2D>(), contactFilter, overlappingColliders);
-
-        for (int i = 0; i < numOverlapping; i++)
+        base.OnTriggerEnter2D(collision);
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-            Collider2D touchingCollider = overlappingColliders[i];
-            GameObject touchingObject = touchingCollider.gameObject;
-
-            if (touchingObject.CompareTag("Player"))
-            {
-                SCR_Player_MasterController playerController = touchingObject.GetComponent<SCR_Player_MasterController>();
-                if (playerController != null)
-                {
-                    float distanceToPlayer = Vector2.Distance(transform.position, touchingObject.transform.position);
-                    if (distanceToPlayer <= (AttackRadiusSize * 2))
-                    {
-                        playerController.CurrentHealth -= 10;
-                        playerStats.IncrementDamageTaken(2);
-                    }
-                }
-            }
-            else if (touchingObject.CompareTag("Enemy"))
-            {
-                    float distanceToPlayer = Vector2.Distance(transform.position, touchingObject.transform.position);
-                  
-                    if (distanceToPlayer <= (AttackRadiusSize * 2))
-                    {
-                        SCR_AI_CLASS aiComponent = touchingObject.GetComponent<SCR_AI_CLASS>();
-
-                        if (aiComponent != null && aiComponent.AICurrentHealth > 0)
-                        {
-                            aiComponent.DamageAI(1);
-                        }
-                    }
-            }
+            enemies.Add(collision.gameObject.GetComponent<SCR_AI_CLASS>());
 
         }
+    }
+    protected override void OnTriggerExit2D(Collider2D collision)
+    {
+        base.OnTriggerExit2D(collision);
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            enemies.Remove(collision.gameObject.GetComponent<SCR_AI_CLASS>());
+
+        }
+    }
+
+
+    void DamagePlayer()
+    {
+        if (base.distanceToPlayer <= aiSettings.attackRadiusSize) 
+        {
+            if (base.playerController != null) 
+            {
+                base.playerController.CurrentHealth -= 10;
+                base.playerStats.IncrementDamageTaken(10);
+            }
+        }
+
+        foreach (SCR_AI_CLASS enemy in enemies)
+        {
+            float DistanceToEnemy = Vector2.Distance(transform.position, enemy.gameObject.transform.position);
+            if (enemy != null && DistanceToEnemy <= aiSettings.attackRadiusSize)
+            {
+                enemy.DamageAI(1);
+
+            }
+        }
+
+        HealthCheck();
+        
     }
 
 }

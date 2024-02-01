@@ -15,7 +15,7 @@ public class SCR_Player_MasterController : MonoBehaviour
     [SerializeField] private int PlayerLevel;
     [SerializeField] private float CurrentXP;
     [SerializeField] private PlayerConfig playerConfig;
-    private Vector2 movementInput;
+    [SerializeField] private Vector2 movementInput;
 
     [Header("Objects")]
     [SerializeField] private TMP_Text HealthDisplay;

@@ -88,7 +88,7 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4896029245129189052}
   m_SourcePrefab: {fileID: 100100000, guid: d92043599c2f0df4382728887c4ed3ca, type: 3}
---- !u!1 &4898316003768919768 stripped
+--- !u!1 &4922234812294403316 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2358295802708068, guid: d92043599c2f0df4382728887c4ed3ca, type: 3}
   m_PrefabInstance: {fileID: 4919947984747500688}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4898316003768919768}
+  m_GameObject: {fileID: 4922234812294403316}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee53562b5d3cff149963b4ffac1d9417, type: 3}
@@ -108,19 +108,23 @@ MonoBehaviour:
   Target: {fileID: 0}
   playerController: {fileID: 0}
   distanceToPlayer: 0
+  playerStats: {fileID: 0}
+  Player: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   shouldMoveRandomly: 0
   AICurrentHealth: 0
   timeSinceLastAttack: 0
   timeSinceLastMove: 0
+  aiSettings: {fileID: 11400000, guid: 44b3aaa554150b043a063250f77656c2, type: 2}
+  aiSettings: {fileID: 11400000, guid: 44b3aaa554150b043a063250f77656c2, type: 2}
 --- !u!114 &4896029245129189052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4898316003768919768}
+  m_GameObject: {fileID: 4922234812294403316}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce3b4c3f5d769e24f8e200edee1529f5, type: 3}

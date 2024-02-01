@@ -147,6 +147,8 @@ MonoBehaviour:
   Target: {fileID: 0}
   playerController: {fileID: 0}
   distanceToPlayer: 0
+  playerStats: {fileID: 0}
+  aiSettings: {fileID: 11400000, guid: 5b42dd98c3ea5024db3b48da82f8bf84, type: 2}
   agent: {fileID: 0}
   animator: {fileID: 0}
   shouldMoveRandomly: 0
