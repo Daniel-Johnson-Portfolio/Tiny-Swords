@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,7 +12,7 @@ public class SCR_NPC_CLASS : MonoBehaviour
     private bool active;
     [SerializeField] private GameObject banner;
     private GameObject scroll;
-
+    private bool closingInProgress = false;
     protected Button acceptButton;
     protected Button denyButton;
 
@@ -59,16 +60,23 @@ public class SCR_NPC_CLASS : MonoBehaviour
     protected virtual void QuestPreview()
     {
         scroll.SetActive(true);
-        tools.SetCamera(banner.transform.position + new Vector3(-0.5f, 0.5f, -15f));;
+        tools.SetCamera(banner.transform.position + new Vector3(-0.5f, 0.5f, -15f));
         StartCoroutine(tools.Open(scroll));
+       
+        
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.CompareTag("Player") && collider.GetComponent<SCR_Player_MasterController>().quest.IsActive == false && !active)
         {
-            ReadyBanner();
-            collider.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.SetActive(false);
+            StartCoroutine(tools.Close(scroll, true));
+            if (!active) 
+            {
+                ReadyBanner();
+                collider.transform.GetChild(0).GetChild(1).GetChild(2).gameObject.SetActive(false);
+            }
+            
         }
     }
 
@@ -92,22 +100,32 @@ public class SCR_NPC_CLASS : MonoBehaviour
         if (collider.CompareTag("Player"))
         {
             tools.ResetCamera();
-            active = false;
-            CloseAll();
+            if (active) // Check if interaction is active before proceeding
+            {
+                CloseAll();
+                
+            }
         }
     }
 
     protected virtual void CloseAll()
     {
-        tools.AddToQueue(tools.Close(scroll));
-        tools.AddToQueue(tools.Close(banner));
-        tools.AddToQueue(Function());
-        StartCoroutine(tools.ProcessCodeQueue());
+        // Ensure this method doesn't get called again before it's finished processing
+        if (!closingInProgress)
+        {
+            closingInProgress = true; // A flag to indicate the closing process is in progress
+            tools.AddToQueue(tools.Close(scroll));
+            tools.AddToQueue(tools.Close(banner));
+            tools.AddToQueue(Function(() => closingInProgress = false)); // Reset flag after all actions
+            StartCoroutine(tools.ProcessCodeQueue());
+        }
     }
 
-    private IEnumerator Function()
+    private IEnumerator Function(Action onCompletion = null)
     {
         CloseInteraction();
-        yield return null;
+        yield return new WaitForEndOfFrame(); // Ensure this runs after any immediate UI changes
+        onCompletion?.Invoke(); // Invoke the completion callback, if provided
+        active = false;
     }
 }

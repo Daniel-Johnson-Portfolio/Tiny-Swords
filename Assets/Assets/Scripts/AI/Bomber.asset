@@ -17,4 +17,4 @@ MonoBehaviour:
   randomMoveCooldown: 3
   maxHealth: 1000
   attackCooldown: 2
-  attackRadiusSize: 0.5
+  attackRadiusSize: 1

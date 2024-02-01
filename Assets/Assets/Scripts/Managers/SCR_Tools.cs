@@ -8,66 +8,100 @@ public class SCR_Tools : MonoBehaviour
 {
     [SerializeField] public Queue<IEnumerator> codeQueue = new Queue<IEnumerator>();
 
+    private Camera mainCamera; // Cache for camera reference
+
+    private void Awake()
+    {
+        mainCamera = Camera.main; // Cache the main camera at start
+    }
 
     public IEnumerator Open(GameObject toOpen)
     {
-        Vector3 targetScale = new Vector3(1f, 1f, 1f);
-        float duration = 0.5f; // Duration of the animation
+        Vector3 targetScale = Vector3.one;
+        float duration = 0.5f;
         float elapsedTime = 0;
 
         while (elapsedTime < duration)
         {
-            toOpen.transform.localScale = Vector3.Lerp(toOpen.transform.localScale, targetScale, (elapsedTime / duration));
+            toOpen.transform.localScale = Vector3.Lerp(toOpen.transform.localScale, targetScale, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        toOpen.transform.localScale = targetScale; // Ensure target scale is set
+        toOpen.transform.localScale = targetScale;
     }
 
-
-    public IEnumerator Close(GameObject ToClose)
+    public IEnumerator Close(GameObject toClose)
     {
-        while (ToClose.transform.localScale.x > 0)
-        {
-            ToClose.transform.localScale += new Vector3(-Mathf.Min(0.1f, ToClose.transform.localScale.x), 0f, 0f);
-            yield return new WaitForSeconds(0.01f);
+        Vector3 targetScale = new Vector3(0,1,1); // Target scale to shrink to new Vector3(0, 1, 1)
+        float duration = 0.5f; // Duration of the animation, matching the Open function for symmetry
+        float elapsedTime = 0;
 
+        while (elapsedTime < duration)
+        {
+            // Smoothly interpolate from the current scale to the target scale over time
+            toClose.transform.localScale = Vector3.Lerp(toClose.transform.localScale, targetScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        toClose.transform.localScale = targetScale; // Ensure the target scale is exactly set at the end
+    }
+
+    public IEnumerator Close(GameObject toClose, bool Instant) //Overload for instant close
+    {
+        Vector3 targetScale = new Vector3(0, 1, 1);
+        while (toClose.transform.localScale != targetScale)
+        {
+            toClose.transform.localScale = targetScale;
+            yield return null;
         }
     }
+
     public IEnumerator FadeIn(Image toFade)
     {
-        Color startColor = toFade.color;
-        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0);
-        float duration = 1f; // Duration of the fade
+        float duration = 1f;
         float elapsedTime = 0;
+        Color startColor = toFade.color;
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1);
 
         while (elapsedTime < duration)
         {
-            toFade.color = Color.Lerp(startColor, endColor, (elapsedTime / duration));
+            toFade.color = Color.Lerp(startColor, endColor, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        toFade.color = endColor; // Ensure final color is set
-        toFade.gameObject.SetActive(false);
+        toFade.color = endColor;
     }
-    public IEnumerator FadeOut(Image ToFade)
+
+    public IEnumerator FadeOut(Image toFade)
     {
-        ToFade.gameObject.SetActive(true);
-        while (ToFade.color.a > 0)
+        toFade.gameObject.SetActive(true);
+        float duration = 1f;
+        float elapsedTime = 0;
+        Color startColor = toFade.color;
+        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0);
+
+        while (elapsedTime < duration)
         {
-            ToFade.color -= new Color(0, 0, 0, Mathf.Min(0.01f, ToFade.color.a));
-            yield return new WaitForSeconds(0.01f);
+            toFade.color = Color.Lerp(startColor, endColor, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
-        ToFade.gameObject.SetActive(false);
-        ToFade.color = new Color(0, 0, 0, 0);
+
+        toFade.gameObject.SetActive(false);
+        toFade.color = endColor;
     }
 
     public void AddToQueue(IEnumerator code)
     {
-        codeQueue.Enqueue(code);
+        if (!codeQueue.Contains(code)) 
+        {
+            codeQueue.Enqueue(code);
+        }
     }
+
     public IEnumerator ProcessCodeQueue()
     {
         while (codeQueue.Count > 0)
@@ -80,30 +114,33 @@ public class SCR_Tools : MonoBehaviour
 
     public void ResetCamera()
     {
-        Camera.main.GetComponent<CameraScript>().PlayerLocked = true;
-        Camera.main.orthographicSize = 5;
-    }
-    public void SetCamera(Vector3 Pos) 
-    {
-        Camera.main.orthographicSize = 2;
-        Camera.main.GetComponent<CameraScript>().PlayerLocked = false;
-        Camera.main.transform.position = Pos;
-
+        if (Camera.main != null)
+        {
+            Camera.main.GetComponent<CameraScript>().PlayerLocked = true;
+            Camera.main.orthographicSize = 5;
+        }
     }
 
-    public void ReturnToMain() 
+    public void SetCamera(Vector3 position)
     {
-        if (!SceneManager.GetSceneByName("MainMenu").IsValid()) 
+        if (Camera.main != null)
+        {
+            Camera.main.orthographicSize = 2;
+            Camera.main.GetComponent<CameraScript>().PlayerLocked = false;
+            Camera.main.transform.position = position;
+        }
+    }
+
+    public void ReturnToMain()
+    {
+        if (!SceneManager.GetSceneByName("MainMenu").IsValid())
         {
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Additive);
             SceneManager.UnloadSceneAsync("SampleScene");
             SceneManager.UnloadSceneAsync("Player");
-
         }
-        
     }
-
-
 }
+
 
 

@@ -14,7 +14,7 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
     protected void Start()
     {
         InitializeAISettings(aiSettings);
-        ExplosionRadius = aiSettings.attackRadiusSize * 4;
+        ExplosionRadius = aiSettings.attackRadiusSize * 2;
         base.Start(); 
     }
 
