@@ -8,12 +8,13 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
     [SerializeField] private float timeSinceTrigger = 0f;
     [SerializeField] bool Trigger = false;
     [SerializeField] private AISettings aiSettings;
-
-    private List<SCR_AI_CLASS> enemies = new List<SCR_AI_CLASS>();
+    [SerializeField] private float ExplosionRadius;
+    [SerializeField] private List<GameObject> enemies = new List<GameObject>();
 
     protected void Start()
     {
         InitializeAISettings(aiSettings);
+        ExplosionRadius = aiSettings.attackRadiusSize * 4;
         base.Start(); 
     }
 
@@ -25,6 +26,7 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
             timeSinceTrigger += Time.deltaTime;
             Attack();
         }
+        HealthCheck();
     }
 
     protected override void AnimChecker()
@@ -88,8 +90,10 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
         base.OnTriggerEnter2D(collision);
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            enemies.Add(collision.gameObject.GetComponent<SCR_AI_CLASS>());
-
+            if (!enemies.Contains(collision.gameObject)) 
+            {
+                enemies.Add(collision.gameObject);
+            }
         }
     }
     protected override void OnTriggerExit2D(Collider2D collision)
@@ -97,7 +101,7 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
         base.OnTriggerExit2D(collision);
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            enemies.Remove(collision.gameObject.GetComponent<SCR_AI_CLASS>());
+            enemies.Remove(collision.gameObject);
 
         }
     }
@@ -105,7 +109,7 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
 
     void DamagePlayer()
     {
-        if (base.distanceToPlayer <= aiSettings.attackRadiusSize) 
+        if (base.distanceToPlayer <= ExplosionRadius) 
         {
             if (base.playerController != null) 
             {
@@ -114,16 +118,15 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
             }
         }
 
-        foreach (SCR_AI_CLASS enemy in enemies)
+        foreach (GameObject enemy in enemies)
         {
             float DistanceToEnemy = Vector2.Distance(transform.position, enemy.gameObject.transform.position);
-            if (enemy != null && DistanceToEnemy <= aiSettings.attackRadiusSize)
+            if (enemy != null && DistanceToEnemy <= ExplosionRadius)
             {
-                enemy.DamageAI(1);
-
+                enemy.GetComponent<SCR_AI_CLASS>().DamageAI(1);
+                Debug.Log("Damaged Enemy" + enemy);
             }
         }
-
         HealthCheck();
         
     }

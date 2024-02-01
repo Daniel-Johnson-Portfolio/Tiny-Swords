@@ -92,7 +92,6 @@ public class SCR_AI_CLASS : MonoBehaviour
             Player = other.gameObject;
             
         }
-        
     }
 
     protected virtual void OnTriggerExit2D(Collider2D other)
@@ -103,8 +102,6 @@ public class SCR_AI_CLASS : MonoBehaviour
             shouldMoveRandomly = true;
         }
     }
-
-
 
     public virtual void DamageAI(int damage)
     {
