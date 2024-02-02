@@ -22,7 +22,7 @@ public class SCR_AI_SHEEP : SCR_AI_CLASS
 
     protected override void PlayerSpotted()
     {
-       //run away from player
+       
     }
     protected override void Attack()
     {
