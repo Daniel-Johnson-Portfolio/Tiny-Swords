@@ -13,6 +13,10 @@ PrefabInstance:
       value: TNT_Thrower_Red
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 45c9acabf680f1941b3b51b24aa7c740, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2253911629886400664, guid: 45c9acabf680f1941b3b51b24aa7c740, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}

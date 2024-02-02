@@ -23,7 +23,7 @@ public class SCR_M_UI_Manager : MonoBehaviour
     {
         if (Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_BUTTON2))
         {
-            Debug.Log(gameObjects.First<GameObject>().name);
+         
             AddToInventory();
         }
     }

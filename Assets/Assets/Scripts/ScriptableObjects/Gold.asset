@@ -9,11 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eefe6e79d20441f40b5961cd6df76872, type: 3}
-  m_Name: Enemy_Melee
+  m_Script: {fileID: 11500000, guid: c7641509c34162943b5711ee5c289314, type: 3}
+  m_Name: Gold
   m_EditorClassIdentifier: 
-  enemyType: 0
-  AttackRadius: 0
-  AttackCooldown: 0
-  MaxHealth: 0
-  Enemy: {fileID: 3711324941783177884, guid: 03d008df0c6f4bd46bedb916cbe1e91e, type: 3}
+  animator: {fileID: 9100000, guid: d6399e1c04aea5a44a4492a46e884819, type: 2}
+  itemType: 0
+  gameObject: {fileID: 6527494953742349565, guid: 9a63ac3e5a700bf47a06e0848d5a1d99, type: 3}

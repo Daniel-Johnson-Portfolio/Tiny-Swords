@@ -1,27 +1,23 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
-using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
 
 public class CaveScript : MonoBehaviour
 {
     [SerializeField] private GameObject Banner;
-    [SerializeField] private bool active;
     [SerializeField] private GameObject Player;
-    [SerializeField] private TextMeshProUGUI tmpText;
-    [SerializeField] public SCR_Tools tools;
+    [SerializeField] private Image PlayerImage; // Assume you assign this via the inspector
+    private bool active;
+    private SCR_Tools tools;
 
-    void Start()
+    private void Awake()
     {
         tools = FindObjectOfType<SCR_Tools>();
-        Banner = gameObject.transform.GetChild(0).GetChild(0).gameObject;
+        Banner = transform.GetChild(0).GetChild(0).gameObject;
     }
 
-    void Update()
+    private void Update()
     {
         if (active && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_BUTTON2))
         {
@@ -32,52 +28,59 @@ public class CaveScript : MonoBehaviour
     public void Activate()
     {
         StartCoroutine(tools.Close(Banner));
-        PlayerPrefs.SetFloat("CaveX", Player.transform.position.x);
-        PlayerPrefs.SetFloat("CaveY", Player.transform.position.y);
-
-        tools.AddToQueue(tools.FadeIn(Player.transform.GetChild(0).GetChild(4).GetComponent<Image>()));
-        tools.AddToQueue(Function());
-        tools.AddToQueue(tools.FadeOut(Player.transform.GetChild(0).GetChild(4).GetComponent<Image>()));
+        SavePlayerPosition();
+        SequencePlayerFade();
         StartCoroutine(tools.ProcessCodeQueue());
     }
 
-    public void OnTriggerEnter2D(Collider2D Collider)
+    private void OnTriggerEnter2D(Collider2D collider)
     {
-        if (Collider.gameObject.tag == "Player")
+        if (collider.CompareTag("Player") && !active)
         {
-            active = true;
-            Player = Collider.gameObject;
-            StartCoroutine(tools.Open(Banner));
+            SetActiveState(true, collider.gameObject);
         }
     }
 
-    void OnTriggerExit2D(Collider2D Collider)
+    private void OnTriggerExit2D(Collider2D collider)
     {
-        if (Collider.gameObject.tag == "Player")
+        if (collider.CompareTag("Player"))
         {
-            active = false;
+            SetActiveState(false, collider.gameObject);
+        }
+    }
 
-            if (Player != null)
-            {
-                Image playerImage = Player.transform.GetChild(0).GetChild(4).GetComponent<Image>();
+    private void SetActiveState(bool state, GameObject player)
+    {
+        active = state;
+        Player = player;
+        PlayerImage = Player.transform.GetChild(0).Find("Black").GetComponent<Image>(); // Cache this reference more efficiently
 
-                if (playerImage != null)
-                {
-                    StartCoroutine(tools.FadeOut(playerImage));
-                }
-                else
-                {
-                    Debug.LogWarning("Player image component is null.");
-                }
-            }
-            else
-            {
-                Debug.LogWarning("Player object is null.");
-            }
-
+        if (state)
+        {
+            StartCoroutine(tools.Open(Banner));
+        }
+        else
+        {
             StartCoroutine(tools.Close(Banner));
         }
     }
+
+    private void SavePlayerPosition()
+    {
+        PlayerPrefs.SetFloat("CaveX", Player.transform.position.x);
+        PlayerPrefs.SetFloat("CaveY", Player.transform.position.y);
+    }
+
+    private void SequencePlayerFade()
+    {
+        if (PlayerImage != null)
+        {
+            tools.AddToQueue(tools.FadeIn(PlayerImage));
+            tools.AddToQueue(Function());
+            tools.AddToQueue(tools.FadeOut(PlayerImage));
+        }
+    }
+
     public IEnumerator Function()
     {
         Player.transform.position = new Vector3(-249, -2, 0);

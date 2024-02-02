@@ -52,4 +52,7 @@ public class SCR_PlayerInventory : MonoBehaviour
     {
        SavePlayerStats();
     }
+
+    
+
 }

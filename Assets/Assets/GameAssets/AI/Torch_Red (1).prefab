@@ -13,6 +13,10 @@ PrefabInstance:
       value: Torch_Red (1)
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 5958442ca287089448a97c35ce6038b3, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -2253911629886400664, guid: 5958442ca287089448a97c35ce6038b3, type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
@@ -148,13 +152,14 @@ MonoBehaviour:
   playerController: {fileID: 0}
   distanceToPlayer: 0
   playerStats: {fileID: 0}
-  aiSettings: {fileID: 11400000, guid: 5b42dd98c3ea5024db3b48da82f8bf84, type: 2}
+  Player: {fileID: 0}
   agent: {fileID: 0}
   animator: {fileID: 0}
   shouldMoveRandomly: 0
   AICurrentHealth: 0
   timeSinceLastAttack: 0
   timeSinceLastMove: 0
+  aiSettings: {fileID: 11400000, guid: 5b42dd98c3ea5024db3b48da82f8bf84, type: 2}
 --- !u!50 &6256932305174220125
 Rigidbody2D:
   serializedVersion: 4

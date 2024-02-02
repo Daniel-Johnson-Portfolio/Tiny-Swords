@@ -60,6 +60,7 @@ public class SCR_Tools : MonoBehaviour
 
     public IEnumerator FadeIn(Image toFade)
     {
+        toFade.gameObject.SetActive(true);
         float duration = 1f;
         float elapsedTime = 0;
         Color startColor = toFade.color;
@@ -71,7 +72,7 @@ public class SCR_Tools : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        toFade.gameObject.SetActive(false);
         toFade.color = endColor;
     }
 

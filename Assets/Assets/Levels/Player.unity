@@ -231,6 +231,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1949329159}
   PlayerLocked: 0
+  tools: {fileID: 0}
 --- !u!114 &55890276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1331,11 +1332,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2963050475204975796, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.97
+      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: 2963050475204975796, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.12
+      value: -2.71
       objectReference: {fileID: 0}
     - target: {fileID: 2963050475204975796, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1579,7 +1580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75a7075a4b7a8544e84c5ce6b5df1249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeSinceLastAttack: 2
+  timeSinceLastAttack: 0
   isAttacking: 0
   playerStats: {fileID: 0}
 --- !u!114 &1949329181
