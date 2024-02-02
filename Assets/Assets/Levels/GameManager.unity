@@ -152,10 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 442dfaadea19a164582d0e9e5a015518, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies:
-  - {fileID: 11400000, guid: 5dd1dbd541852744cb2a23fce5fa72cd, type: 2}
-  - {fileID: 11400000, guid: 09595bad09cef2b42a05e03743371c1b, type: 2}
-  - {fileID: 11400000, guid: 628d0d40857339d4f89442d853e78ac4, type: 2}
 --- !u!4 &215780403
 Transform:
   m_ObjectHideFlags: 0
@@ -293,7 +289,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.22
-  m_Speed: 2
+  m_Speed: 1.75
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -329,6 +325,7 @@ MonoBehaviour:
   timeSinceLastAttack: 0
   timeSinceLastMove: 0
   aiSettings: {fileID: 11400000, guid: 6149af68257e762419edd64635f24c7b, type: 2}
+  runToPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &426488751
 GameObject:
   m_ObjectHideFlags: 0
@@ -568,11 +565,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 988022fc6f4c70a418883fe1e6cc0354, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.9212333
+      value: 3.8
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 988022fc6f4c70a418883fe1e6cc0354, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.594857
+      value: -1.8
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 988022fc6f4c70a418883fe1e6cc0354, type: 3}
       propertyPath: m_LocalPosition.z
