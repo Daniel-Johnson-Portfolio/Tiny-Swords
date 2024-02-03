@@ -82,4 +82,17 @@ public class SCR_AI_SHEEP : SCR_AI_CLASS
     {
         //sheep does not collide with anything
     }
+    protected override void HealthCheck()
+    {
+        if (AICurrentHealth <= 0)
+        {
+            playerStats.IncrementAmountKilled();
+            Vector3 aiPosition = transform.position;
+            GameObject goldInstance = Instantiate(Resources.Load<GameObject>("Meat"), aiPosition, Quaternion.identity);
+            Destroy(gameObject);
+        }
+    }
+
+
 }
+

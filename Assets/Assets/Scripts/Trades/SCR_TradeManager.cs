@@ -15,6 +15,7 @@ public class SCR_TradeManager : MonoBehaviour
             CreateTrade("Gold", 25, TradeItem.Gold, 3, 1),
             CreateTrade("Gold", 50, TradeItem.Gold, 6, 1),
             CreateTrade("Gold", 75, TradeItem.Gold, 9, 1),
+            CreateTrade("Meat", 75, TradeItem.Meat, 1, 1),
 
          };
     }

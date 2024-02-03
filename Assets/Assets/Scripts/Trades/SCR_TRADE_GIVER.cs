@@ -111,6 +111,23 @@ public class SCR_TRADE_GIVER : SCR_M_GIVER_A_CLASS
                     TradeError.text = "You do not have enough resources!";
                 }
                 break;
+            case TradeItem.Meat:
+
+                if (playerInventory.PlayerInventory.Meat >= selectedTrade.Amount)
+                {
+                    playerInventory.PlayerInventory.Meat -= selectedTrade.Amount;
+                    playerStats.IncrementXP(selectedTrade.Reward);
+                    button.transform.parent.parent.parent.parent.gameObject.GetComponent<SCR_NPC_TRADER>().TransactionComplete = true;
+                    IsTradeSelected = false;
+                    tools.ResetCamera();
+                    Selection();
+                }
+                else
+                {
+                    TradeError.text = "You do not have enough resources!";
+                }
+                break;
+
 
             default:
 

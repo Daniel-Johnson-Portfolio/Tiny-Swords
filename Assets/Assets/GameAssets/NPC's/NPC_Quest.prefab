@@ -152,6 +152,10 @@ PrefabInstance:
       value: NPC_Quest
       objectReference: {fileID: 0}
     - target: {fileID: 1304013541244307282, guid: c8c29e423ad46454b92ecb0a4a066a18, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1304013541244307282, guid: c8c29e423ad46454b92ecb0a4a066a18, type: 3}
       propertyPath: m_TagString
       value: NPC_QUEST
       objectReference: {fileID: 0}

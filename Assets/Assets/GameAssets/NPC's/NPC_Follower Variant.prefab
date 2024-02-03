@@ -1499,6 +1499,10 @@ PrefabInstance:
       value: NPC_Follower Variant
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 79c5dab18027df24389f080ab87f8156, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -2253911629886400664, guid: 79c5dab18027df24389f080ab87f8156, type: 3}
       propertyPath: m_TagString
       value: NPC_FOLLOWER
       objectReference: {fileID: 0}
@@ -1624,11 +1628,14 @@ MonoBehaviour:
   tools: {fileID: 0}
   questGiver: {fileID: 0}
   banner: {fileID: 0}
-  FA_Giver: {fileID: 0}
-  CurrentlyActive: 0
   AcceptanceDistance: 1.5
   distanceToPlayer: 0
+  agent: {fileID: 0}
+  FA_Giver: {fileID: 0}
   player: {fileID: 0}
+  animator: {fileID: 0}
+  CurrentlyActive: 0
+  Cooldown: 1
 --- !u!58 &2602919484071569792
 CircleCollider2D:
   m_ObjectHideFlags: 0

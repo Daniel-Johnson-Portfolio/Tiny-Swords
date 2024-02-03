@@ -9,7 +9,7 @@ public class SCR_PlayerInventory : MonoBehaviour
     {
         public int Gold;
         public int Wood;
-        public int Meat; //Unlikly to be used
+        public int Meat;
     }
     [SerializeField] public Inventory PlayerInventory;
 
@@ -42,10 +42,15 @@ public class SCR_PlayerInventory : MonoBehaviour
     {
         PlayerInventory.Wood++;
     }
+    public void IncrementMeat()
+    {
+        PlayerInventory.Meat++;
+    }
     void Update()
     {
         inventory.transform.GetChild(1).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = PlayerInventory.Wood.ToString();
         inventory.transform.GetChild(2).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = PlayerInventory.Gold.ToString();
+        inventory.transform.GetChild(3).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = PlayerInventory.Meat.ToString();
     }
 
     void OnApplicationQuit()

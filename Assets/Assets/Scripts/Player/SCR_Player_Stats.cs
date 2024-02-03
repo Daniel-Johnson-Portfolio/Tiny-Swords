@@ -16,6 +16,7 @@ public class SCR_Player_Stats : MonoBehaviour
     {
         [SerializeField] public int WoodCollected;
         [SerializeField] public int GoldCollected;
+        [SerializeField] public int MeatCollected;
     }
     [System.Serializable]
     public struct Quests
@@ -110,6 +111,10 @@ public class SCR_Player_Stats : MonoBehaviour
     public void IncrementGoldCollected()
     {
         resourceStats.GoldCollected++;
+    }
+    public void IncrementMeatCollected()
+    {
+        resourceStats.MeatCollected++;
     }
   
     protected void IncrementLevel()

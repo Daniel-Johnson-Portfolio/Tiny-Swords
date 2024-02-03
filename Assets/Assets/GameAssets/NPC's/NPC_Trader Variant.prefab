@@ -1499,6 +1499,10 @@ PrefabInstance:
       value: NPC_Trader Variant
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 33746a07b8e2a2a41a239a486233200b, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: -2253911629886400664, guid: 33746a07b8e2a2a41a239a486233200b, type: 3}
       propertyPath: m_TagString
       value: NPC_TRADER
       objectReference: {fileID: 0}
