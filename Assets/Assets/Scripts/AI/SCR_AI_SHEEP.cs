@@ -8,7 +8,7 @@ public class SCR_AI_SHEEP : SCR_AI_CLASS
     [SerializeField] private Vector3 runToPosition;
     private bool isRunning = false;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
         InitializeAISettings(aiSettings);
         base.Start();
@@ -16,13 +16,17 @@ public class SCR_AI_SHEEP : SCR_AI_CLASS
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         if (isRunning)
         {
             PlayerSpotted();
         }
-        // base.shouldMoveRandomly = true;
+        else 
+        {
+            base.shouldMoveRandomly = true;
+        }
+        
         base.Update();
     }
 
