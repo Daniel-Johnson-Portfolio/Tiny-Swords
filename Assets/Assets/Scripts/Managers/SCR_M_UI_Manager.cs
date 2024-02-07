@@ -54,7 +54,7 @@ public class SCR_M_UI_Manager : MonoBehaviour
         }
         if (Collider.gameObject.layer == LayerMask.NameToLayer("NPC"))
         {
-            npcs.Remove(Collider.gameObject); // Add the NPC to the list
+            npcs.Remove(Collider.gameObject); // Remove the NPC to the list
         }
     }
 

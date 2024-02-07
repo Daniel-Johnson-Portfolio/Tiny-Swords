@@ -16,7 +16,7 @@ public class ActiveQuest : MonoBehaviour
     public GameObject CurrentNPC;
     protected SCR_Player_Stats playerStats;
     private Queue<IEnumerator> coroutineQueue = new Queue<IEnumerator>();
-    [SerializeField] protected int LogsStartingAmount;
+    [SerializeField] protected int StartingAmount;
     [SerializeField] protected int KillStartingAmount;
 
     [System.Serializable]
@@ -74,18 +74,35 @@ public class ActiveQuest : MonoBehaviour
     {
         if (GatheringType == "Wood")
         {
-            if (questGoal.CurrentAmount == 0 && LogsStartingAmount == 0)
+            if (questGoal.CurrentAmount == 0 && StartingAmount == 0)
             {
-                LogsStartingAmount = playerStats.resourceStats.WoodCollected;
+                StartingAmount = playerStats.resourceStats.WoodCollected;
             }
-            if (LogsStartingAmount < playerStats.resourceStats.WoodCollected)
+            if (StartingAmount < playerStats.resourceStats.WoodCollected)
             {
                 questGoal.CurrentAmount++;
-                LogsStartingAmount = playerStats.resourceStats.WoodCollected;
+                StartingAmount = playerStats.resourceStats.WoodCollected;
             }
             if (questGoal.CurrentAmount == questGoal.requiredAmount)
             {
-                LogsStartingAmount = playerStats.resourceStats.WoodCollected;
+                StartingAmount = playerStats.resourceStats.WoodCollected;
+                Complete();
+            }
+        }
+        if (GatheringType == "Meat")
+        {
+            if (questGoal.CurrentAmount == 0 && StartingAmount == 0)
+            {
+                StartingAmount = playerStats.resourceStats.MeatCollected;
+            }
+            if (StartingAmount < playerStats.resourceStats.MeatCollected)
+            {
+                questGoal.CurrentAmount++;
+                StartingAmount = playerStats.resourceStats.MeatCollected;
+            }
+            if (questGoal.CurrentAmount == questGoal.requiredAmount)
+            {
+                StartingAmount = playerStats.resourceStats.MeatCollected;
                 Complete();
             }
         }
