@@ -16,6 +16,7 @@ public class SCR_AI_CLASS : MonoBehaviour
     
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] protected Animator animator;
+    //[SerializeField] protected Animator animator2;
     [SerializeField] protected bool shouldMoveRandomly;
     public int AICurrentHealth;
 
@@ -37,6 +38,7 @@ public class SCR_AI_CLASS : MonoBehaviour
         playerStats = FindObjectOfType<SCR_Player_Stats>();
         Target = GameObject.FindWithTag("Player").transform;
         animator = GetComponent<Animator>();
+        
         agent = GetComponent<NavMeshAgent>();
         AICurrentHealth = aiSettings.maxHealth;
         agent.updateRotation = false;
@@ -140,6 +142,7 @@ public class SCR_AI_CLASS : MonoBehaviour
         if (!currentState.IsName("Attack_Right"))
         {
             animator.SetBool("AttackFront", false);
+            //animator2.SetBool("AttackRight", false);
         }
     }
 
@@ -153,6 +156,7 @@ public class SCR_AI_CLASS : MonoBehaviour
             if (!animator.GetBool("AttackFront"))
             {
                 animator.SetBool("AttackFront", true);
+                //if(animator2 != null) animator2.SetBool("AttackRight", true);
             }
         }
         else
