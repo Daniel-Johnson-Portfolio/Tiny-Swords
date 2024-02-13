@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class SCR_AI_Melee : SCR_AI_CLASS
 {
@@ -14,5 +15,10 @@ public class SCR_AI_Melee : SCR_AI_CLASS
     protected override void Update()
     {
         base.Update();
+
+        if (base.agent.velocity.magnitude > 0) 
+        {
+            gameObject.GetComponent<Light2D>().lightType
+        }
     }
 }
