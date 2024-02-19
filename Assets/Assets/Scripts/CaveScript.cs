@@ -11,8 +11,9 @@ public class CaveScript : MonoBehaviour
     private bool active;
     private SCR_Tools tools;
 
-    private void Awake()
+    private void Start()
     {
+        active = false;
         tools = FindObjectOfType<SCR_Tools>();
         Banner = transform.GetChild(0).GetChild(0).gameObject;
     }
