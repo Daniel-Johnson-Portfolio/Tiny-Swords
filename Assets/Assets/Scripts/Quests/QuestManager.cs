@@ -15,7 +15,7 @@ public class QuestManager : MonoBehaviour
             CreateQuest("Getting Wood", "Cut down 3 trees", 200, 1, Goaltype.Gathering, 3, "Wood"),
             CreateQuest("Killing Goblins", "Kill 3 Goblins", 200, 1, Goaltype.kill, 3, ""),
             CreateQuest("Killing Goblins 2", "Kill 6 Goblins", 400, 3, Goaltype.kill, 6, ""),
-            CreateQuest("Kill 3 sheep", "Kill 3 sheep and pick up their meat", 400, 3, Goaltype.Gathering, 3, "Meat"),
+            CreateQuest("Kill 3 sheep", "Collect 3 Meat", 400, 3, Goaltype.Gathering, 3, "Meat"),
             // Add more quests as needed
         };
     }

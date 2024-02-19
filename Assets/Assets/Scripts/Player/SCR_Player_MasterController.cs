@@ -16,6 +16,8 @@ public class SCR_Player_MasterController : MonoBehaviour
     [SerializeField] private float CurrentXP;
     [SerializeField] private PlayerConfig playerConfig;
     [SerializeField] private Vector2 movementInput;
+    [SerializeField] private bool CanMove;
+    [SerializeField] public bool IsAlive;
 
     [Header("Objects")]
     [SerializeField] private TMP_Text HealthDisplay;
@@ -67,17 +69,35 @@ public class SCR_Player_MasterController : MonoBehaviour
         PlayerRigidbody = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
         parentTransform = transform.parent;
-
+        CanMove = true;
+        IsAlive = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        HandleMovementInput();
-        HandleInventoryInput();
-        HandleMenuInput();
+        if (CanMove)
+        {
+            HandleMovementInput();
+            HandleInventoryInput();
+            HandleMenuInput();
+        }
+        
 
         RotatePlayer();
+        if (currentHealth <= 0 && IsAlive) 
+        {
+            IsAlive = false;
+            Dead();
+        }
+    }
+    private void Dead() 
+    {
+        Animator.SetBool("IsDead", true);
+        Animator.SetTrigger("Dead");
+        CanMove = false;
+        PlayerRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
+    
     }
 
     private void UpdateHealthDisplay()

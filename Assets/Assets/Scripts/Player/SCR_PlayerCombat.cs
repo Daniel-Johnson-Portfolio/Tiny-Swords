@@ -30,7 +30,7 @@ public class SCR_PlayerCombat : MonoBehaviour
 
     void HandleAttackInput()
     {
-        if (!isAttacking && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_ATTACK))
+        if (!isAttacking && Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_ATTACK) && playerMasterController.IsAlive == true)
         {
             isAttacking = true;
             timeSinceLastAttack = 0f;

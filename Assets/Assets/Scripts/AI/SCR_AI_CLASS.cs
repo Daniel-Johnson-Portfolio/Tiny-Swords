@@ -11,6 +11,7 @@ public class SCR_AI_CLASS : MonoBehaviour
     [SerializeField] protected float distanceToPlayer;
     [SerializeField] protected SCR_Player_Stats playerStats;
     [SerializeField] protected GameObject Player;
+    [SerializeField] protected bool ShouldAttack;
 
     [Header("AI Settings")]
     
@@ -38,7 +39,7 @@ public class SCR_AI_CLASS : MonoBehaviour
         playerStats = FindObjectOfType<SCR_Player_Stats>();
         Target = GameObject.FindWithTag("Player").transform;
         animator = GetComponent<Animator>();
-        
+        ShouldAttack = true;
         agent = GetComponent<NavMeshAgent>();
         AICurrentHealth = aiSettings.maxHealth;
         agent.updateRotation = false;
@@ -86,7 +87,7 @@ public class SCR_AI_CLASS : MonoBehaviour
 
     protected virtual void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") && ShouldAttack)
         {
         // Player has entered the detection area
             playerController = other.GetComponent<SCR_Player_MasterController>();
@@ -123,6 +124,13 @@ public class SCR_AI_CLASS : MonoBehaviour
         {
             playerController.CurrentHealth -= 2;
             playerStats.IncrementDamageTaken(2);
+            if (playerController.CurrentHealth <= 0) 
+            {
+                ShouldAttack = false;
+                agent.ResetPath();
+                shouldMoveRandomly = true;
+
+            }
         }
     }
 

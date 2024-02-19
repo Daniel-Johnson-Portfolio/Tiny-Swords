@@ -269,7 +269,7 @@ MonoBehaviour:
   m_RequiresColorTexture: 0
   m_Version: 2
   m_TaaSettings:
-    quality: 3
+    quality: 4
     frameInfluence: 0.1
     jitterScale: 1
     mipBias: 0
@@ -1347,7 +1347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2963050475204975796, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.71
+      value: -2.75
       objectReference: {fileID: 0}
     - target: {fileID: 2963050475204975796, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_LocalPosition.z
