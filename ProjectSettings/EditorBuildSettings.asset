@@ -8,4 +8,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Assets/Levels/OverWorld.unity
+    guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Assets/Levels/GameManager.unity
+    guid: b98b8452bb3d8f046ac14bafa52e077c
+  - enabled: 1
+    path: Assets/Assets/Levels/Player.unity
+    guid: 52f954a007629fc47825a988c5c30ff4
+  - enabled: 1
+    path: Assets/Assets/Levels/MainMenu.unity
+    guid: 06d77c0814a3c90478ec7fb74e298a96
+  - enabled: 1
+    path: Assets/Assets/Levels/Cave.unity
+    guid: 7b8aaafac4c899b4c8ba46cc4610cc04
   m_configObjects: {}

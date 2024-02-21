@@ -28,7 +28,7 @@ public class CaveScript : MonoBehaviour
 
     public void Activate()
     {
-        StartCoroutine(tools.Close(Banner));
+        tools.AddToQueue(tools.Close(Banner));
         SavePlayerPosition();
         SequencePlayerFade();
         StartCoroutine(tools.ProcessCodeQueue());

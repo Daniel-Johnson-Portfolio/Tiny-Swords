@@ -12,14 +12,14 @@ public class SCR_PlayerCombat : MonoBehaviour
     [SerializeField] private SCR_Player_Stats playerStats;
     private SCR_Player_MasterController playerMasterController;
 
-    private void Start()
+    void Start()
     {
         animator = GetComponent<Animator>();
         playerStats = FindObjectOfType<SCR_Player_Stats>();
         playerMasterController = GetComponent<SCR_Player_MasterController>();
     }
 
-    private void Update()
+    void Update()
     {
         AnimChecker();
         playerMovementDirection = playerMasterController.GetPlayerMovementDirection();

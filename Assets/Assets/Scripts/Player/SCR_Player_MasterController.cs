@@ -53,17 +53,15 @@ public class SCR_Player_MasterController : MonoBehaviour
         {
             PlayerMovementSpeed = playerConfig.movementSpeed;
             MaxHealth = playerConfig.maxHealth;
-            // Initialize other settings from the config
         }
 
         Menu = transform.GetChild(0).Find("Menu").gameObject;
         Button button = Menu.transform.Find("Exit").GetComponent<Button>();
         button.onClick.AddListener(() => tools?.ReturnToMain());
-
         tools = FindObjectOfType<SCR_Tools>();
         PlayerLevel = PlayerPrefs.GetInt("PlayerLevel", 1);
         transform.GetChild(0).GetChild(4).gameObject.SetActive(true);
-        StartCoroutine(tools.FadeOut(transform.GetChild(0).GetChild(4).GetComponent<Image>()));
+        
         HealthDisplay = gameObject.transform.Find("Canvas/Health/Health/Text (TMP)").GetComponent<TMP_Text>();
         CurrentHealth = MaxHealth;
         PlayerRigidbody = GetComponent<Rigidbody2D>();
@@ -71,6 +69,8 @@ public class SCR_Player_MasterController : MonoBehaviour
         parentTransform = transform.parent;
         CanMove = true;
         IsAlive = true;
+
+        StartCoroutine(tools.FadeOut(transform.GetChild(0).Find("Black").GetComponent<Image>()));
     }
 
     // Update is called once per frame

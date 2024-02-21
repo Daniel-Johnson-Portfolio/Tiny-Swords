@@ -8,7 +8,7 @@ public class TreeScript : MonoBehaviour
     public float damageCooldown = 1.0f; // Adjust the cooldown time as needed
     public float timeSinceLastDamage = 0f;
     private Animator Animator;
-    private Collider2D myCollider;
+    [SerializeField] private Collider2D myCollider;
     public float HitTime;
     public LayerMask layersToCheck;
     
@@ -55,7 +55,9 @@ public class TreeScript : MonoBehaviour
             Animator.SetBool("Alive", false);
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = 1;
             myCollider.enabled = false;
-            gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+            //gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+            gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+            
             Vector3 Position = transform.position;
             GameObject WoodInstance = Instantiate(Resources.Load<GameObject>("Log"), Position + new Vector3(0,1,0), Quaternion.identity);
             gameObject.GetComponent<TreeScript>().enabled = false;
