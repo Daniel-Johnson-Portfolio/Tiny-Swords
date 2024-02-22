@@ -15,6 +15,7 @@ public class SCR_M_InputManager : MonoBehaviour
     public KeyCode INPUT_BUTTON2 { get; set; }
     public KeyCode INPUT_INVENTORY { get; set; }
     public KeyCode INPUT_MENU { get; set; }
+    public KeyCode INPUT_RESPAWN { get; set; }
 
     private Dictionary<KeyCode, string> assignedKeys = new Dictionary<KeyCode, string>();
 
@@ -85,6 +86,7 @@ public class SCR_M_InputManager : MonoBehaviour
         INPUT_BUTTON2 = GetKeyCodeFromPlayerPrefs("INPUT_BUTTON2_KEY", "F");
         INPUT_INVENTORY = GetKeyCodeFromPlayerPrefs("INPUT_INVENTORY_KEY", "I");
         INPUT_MENU = GetKeyCodeFromPlayerPrefs("INPUT_MENU_KEY", "Escape");
+        INPUT_RESPAWN = GetKeyCodeFromPlayerPrefs("INPUT_RESPAWN_KEY", "R");
 
     }
 

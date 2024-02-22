@@ -72,7 +72,7 @@ public class SCR_Tools : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        toFade.gameObject.SetActive(false);
+        //toFade.gameObject.SetActive(false);
         toFade.color = endColor;
     }
 

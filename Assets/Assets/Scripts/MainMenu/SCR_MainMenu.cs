@@ -8,13 +8,12 @@ public class SCR_MainMenu : MonoBehaviour
     // Start is called before the first frame update
     public void PlayGame() 
     {
+
         SceneManager.UnloadSceneAsync("MainMenu");
+        SceneManager.LoadSceneAsync("GameManager", LoadSceneMode.Single);
         SceneManager.LoadScene("OverWorld", LoadSceneMode.Additive);
         SceneManager.LoadScene("Player", LoadSceneMode.Additive);
        
-        
-        
-        
     }
     public void QuitGame()
     {

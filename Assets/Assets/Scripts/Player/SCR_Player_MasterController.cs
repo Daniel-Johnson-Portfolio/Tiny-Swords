@@ -81,10 +81,13 @@ public class SCR_Player_MasterController : MonoBehaviour
             HandleMovementInput();
             HandleInventoryInput();
             HandleMenuInput();
+            RotatePlayer();
+        }
+        if (!IsAlive && Input.GetKey(SCR_M_InputManager.InputManager.INPUT_RESPAWN)) 
+        {
+            Respawn();
         }
         
-
-        RotatePlayer();
         if (currentHealth <= 0 && IsAlive) 
         {
             IsAlive = false;
@@ -97,7 +100,27 @@ public class SCR_Player_MasterController : MonoBehaviour
         Animator.SetTrigger("Dead");
         CanMove = false;
         PlayerRigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
-    
+        tools.AddToQueue(tools.FadeIn(transform.GetChild(0).Find("Black").GetComponent<Image>()));
+        tools.AddToQueue(tools.FadeIn(transform.GetChild(0).Find("RespawnUI").GetChild(0).GetComponent<Image>()));
+        tools.AddToQueue(tools.FadeIn(transform.GetChild(0).Find("RespawnUI").GetChild(1).GetComponent<Image>()));
+        tools.StartCoroutine(tools.ProcessCodeQueue());
+     
+    }
+    private void Respawn()
+    {
+        Animator.SetBool("IsDead", false);
+        
+        CanMove = true;
+        PlayerRigidbody.constraints = RigidbodyConstraints2D.None;
+        PlayerRigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        tools.AddToQueue(tools.FadeOut(transform.GetChild(0).Find("Black").GetComponent<Image>()));
+        tools.AddToQueue(tools.FadeOut(transform.GetChild(0).Find("RespawnUI").GetChild(0).GetComponent<Image>()));
+        tools.AddToQueue(tools.FadeOut(transform.GetChild(0).Find("RespawnUI").GetChild(1).GetComponent<Image>()));
+        tools.StartCoroutine(tools.ProcessCodeQueue());
+        IsAlive = true;
+        CurrentHealth = MaxHealth;
+        //Reset character sprite
+        //Set player position to last checkpoint
     }
 
     private void UpdateHealthDisplay()

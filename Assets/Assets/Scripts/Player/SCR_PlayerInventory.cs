@@ -18,9 +18,12 @@ public class SCR_PlayerInventory : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        inventory = player.transform.GetChild(0).GetChild(2).gameObject;
-        LoadPlayerStats();
+        if (GameObject.FindGameObjectWithTag("Player") != null) 
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            inventory = player.transform.GetChild(0).Find("Inventory").gameObject;
+            LoadPlayerStats();
+        } 
     }
 
     void SavePlayerStats()
@@ -48,9 +51,12 @@ public class SCR_PlayerInventory : MonoBehaviour
     }
     void Update()
     {
-        inventory.transform.GetChild(1).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = PlayerInventory.Wood.ToString();
-        inventory.transform.GetChild(2).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = PlayerInventory.Gold.ToString();
-        inventory.transform.GetChild(3).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = PlayerInventory.Meat.ToString();
+        if (GameObject.FindGameObjectWithTag("Player") != null)
+        {
+            inventory.transform.GetChild(1).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = PlayerInventory.Wood.ToString();
+            inventory.transform.GetChild(2).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = PlayerInventory.Gold.ToString();
+            inventory.transform.GetChild(3).GetChild(0).GetComponent<TMPro.TextMeshProUGUI>().text = PlayerInventory.Meat.ToString();
+        }
     }
 
     void OnApplicationQuit()
