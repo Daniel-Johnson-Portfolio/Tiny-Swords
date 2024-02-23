@@ -90,11 +90,24 @@ public class SCR_AI_SHEEP : SCR_AI_CLASS
     {
         if (AICurrentHealth <= 0)
         {
+            transform.GetComponent<AudioSource>().Play();
             playerStats.IncrementAmountKilled();
             Vector3 aiPosition = transform.position;
             GameObject goldInstance = Instantiate(Resources.Load<GameObject>("Meat"), aiPosition, Quaternion.identity);
-            Destroy(gameObject);
+            transform.GetComponent<SpriteRenderer>().enabled = false;
+            StartCoroutine(waitForSound());
         }
+    }
+    IEnumerator waitForSound()
+    {
+        //Wait Until Sound has finished playing
+        while (transform.GetComponent<AudioSource>().isPlaying)
+        {
+            yield return null;
+        }
+
+        //Auidio has finished playing, disable GameObject
+        Destroy(gameObject);
     }
 
 

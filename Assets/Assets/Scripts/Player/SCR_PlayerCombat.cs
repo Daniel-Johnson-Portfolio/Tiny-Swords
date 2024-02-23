@@ -82,6 +82,7 @@ public class SCR_PlayerCombat : MonoBehaviour
 
     void Attack()
     {
+        transform.GetComponent<AudioSource>().Play();
         animator.SetBool("AttackFront", Mathf.Abs(playerMovementDirection.x) >= Mathf.Abs(playerMovementDirection.y));
         animator.SetBool("AttackUp", playerMovementDirection.y > 0 && Mathf.Abs(playerMovementDirection.y) > Mathf.Abs(playerMovementDirection.x));
         animator.SetBool("AttackDown", playerMovementDirection.y < 0 && Mathf.Abs(playerMovementDirection.y) > Mathf.Abs(playerMovementDirection.x));

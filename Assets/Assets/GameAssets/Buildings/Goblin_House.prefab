@@ -222,7 +222,7 @@ MonoBehaviour:
   SpawnChance: 0
   Goblins:
   - {fileID: 3022027207625266397, guid: 3be021416e8af474bbdc265b6a797fef, type: 3}
-  - {fileID: 2276679229864062588, guid: aaa849fa23178984cb5c70ab75271a90, type: 3}
+  - {fileID: 2649329627563360883, guid: aaa849fa23178984cb5c70ab75271a90, type: 3}
   - {fileID: 3711324941783177884, guid: 03d008df0c6f4bd46bedb916cbe1e91e, type: 3}
 --- !u!114 &2213394087964153449
 MonoBehaviour:
