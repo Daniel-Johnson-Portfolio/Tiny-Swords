@@ -10,11 +10,12 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
     [SerializeField] private AISettings aiSettings;
     [SerializeField] private float ExplosionRadius;
     [SerializeField] private List<GameObject> enemies = new List<GameObject>();
+    private const float explosionRadiusMulitplier = 2;
 
     protected void Start()
     {
         InitializeAISettings(aiSettings);
-        ExplosionRadius = aiSettings.attackRadiusSize * 2;
+        ExplosionRadius = aiSettings.attackRadiusSize * explosionRadiusMulitplier;
         base.Start(); 
     }
 
@@ -29,11 +30,13 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
         HealthCheck();
     }
 
+    //In this case AnimChecker is used to check if the AI has exploded as it occurs in the animation
     protected override void AnimChecker()
     {
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         if (currentState.IsName("Explosion"))
         {
+            //The explosion it self is too small so we scale it up when it occurs
             gameObject.transform.localScale = new Vector3(2, 2, 2);
             Exploded = true;
             DamagePlayer();
@@ -47,17 +50,21 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
             Attack();
             
         }
+        CoolDown();
 
-        if (timeSinceTrigger >= aiSettings.attackCooldown && Trigger == true)
+    }
+
+    private void CoolDown()
+    {
+        if (timeSinceTrigger >= aiSettings.attackCooldown && Trigger)
         {
             animator.SetBool("Trigger", false);
         }
-
     }
 
     protected override void Attack()
     {
-        if (timeSinceTrigger > 2)
+        if (timeSinceTrigger > aiSettings.attackCooldown)
         {
             animator.SetBool("Trigger", false);
             Trigger = false;
@@ -77,7 +84,7 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
     protected override void HealthCheck()
     {
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
-        if (Exploded == true && !currentState.IsName("Explosion")) 
+        if (Exploded && !currentState.IsName("Explosion")) 
         {
             Vector3 aiPosition = transform.position;
             GameObject goldInstance = Instantiate(Resources.Load<GameObject>("Gold"), aiPosition, Quaternion.identity);
@@ -121,7 +128,7 @@ public class SCR_AI_BOMBER : SCR_AI_CLASS
         foreach (GameObject enemy in enemies)
         {
             float DistanceToEnemy = Vector2.Distance(transform.position, enemy.gameObject.transform.position);
-            if (enemy != null && DistanceToEnemy <= ExplosionRadius)
+            if (enemy.GetComponent<SCR_AI_CLASS>() != null && DistanceToEnemy <= ExplosionRadius)
             {
                 enemy.GetComponent<SCR_AI_CLASS>().DamageAI(1);
                 Debug.Log("Damaged Enemy" + enemy);

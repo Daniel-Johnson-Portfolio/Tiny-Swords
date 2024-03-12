@@ -21,8 +21,6 @@ public abstract class SCR_M_GIVER_A_CLASS : MonoBehaviour
         tools = FindObjectOfType<SCR_Tools>();
         playerStats = FindObjectOfType<SCR_Player_Stats>();
         player = GameObject.FindGameObjectWithTag("Player");
-       // title = transform.parent.GetChild(0).GetComponent<TMP_Text>();
-        //description = transform.parent.GetChild(1).GetComponent<TMP_Text>();
         Selection();
     }
 

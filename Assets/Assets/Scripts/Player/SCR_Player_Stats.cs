@@ -73,7 +73,6 @@ public class SCR_Player_Stats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //PlayerPrefs.DeleteAll();
         LoadPlayerStats();
         if (playerStats.Level == 0) 
         {
@@ -85,6 +84,7 @@ public class SCR_Player_Stats : MonoBehaviour
     void Update()
     {
         gameStats.TimeInGame += Time.deltaTime;
+        SavePlayerStats();
     }
 
     void OnApplicationQuit()
@@ -131,6 +131,24 @@ public class SCR_Player_Stats : MonoBehaviour
             playerStats.XP = playerStats.XP - (playerStats.Level * 100);
         }
     }
+    public void IncrementTimesDied()
+    {
+        print("TiemesDied");
+        playerStats.TimesDied++;
+    }
+    public void IncrementQuestsCompleted()
+    {
+        questStats.AmountCompleted++;
+    }
+    public void IncrementTimeSpent(float Time)
+    {
+        questStats.TimeSpent += Time;
+    }
+    public void IncrementCavesExplored()
+    {
+        gameStats.CavesExplored++;
+    }
+
 
 
 

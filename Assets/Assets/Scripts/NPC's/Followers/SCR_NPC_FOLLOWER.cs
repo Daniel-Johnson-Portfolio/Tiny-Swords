@@ -102,7 +102,7 @@ public class SCR_NPC_FOLLOWER : SCR_NPC_CLASS
                         player.GetComponent<SCR_Player_MasterController>().CurrentHealth += 1;
                     }
                     break;
-                    //Other Follower Ability functions
+                    
             }
             yield return new WaitForSeconds(0.1f);
 

@@ -43,7 +43,8 @@ public class SCR_M_UI_Manager : MonoBehaviour
         }
         if (Collider.gameObject.layer == LayerMask.NameToLayer("NPC") && !npcs.Contains(Collider.gameObject))
         {
-            npcs.Add(Collider.gameObject); // Add the NPC to the list
+            npcs.Add(Collider.gameObject); //Add the NPC to the list
+            
         }
     }
     void OnTriggerExit2D(Collider2D Collider)
@@ -54,36 +55,33 @@ public class SCR_M_UI_Manager : MonoBehaviour
         }
         if (Collider.gameObject.layer == LayerMask.NameToLayer("NPC"))
         {
-            npcs.Remove(Collider.gameObject); // Remove the NPC to the list
-        }
-    }
-
-    void TheDebug() 
-    {
-        foreach (GameObject obj in gameObjects) 
-        {
-            Debug.Log(obj.name);
+            npcs.Remove(Collider.gameObject); //Remove the NPC to the list
         }
     }
 
     public void AddToInventory()
     {
-        if (gameObjects.First<GameObject>().name == "Gold(Clone)") 
+        if (gameObjects.Count > 0) 
         {
-            playerStats.IncrementGoldCollected();
-            playerInventory.IncrementGold();
+            if (gameObjects.First<GameObject>().name == "Gold(Clone)")
+            {
+                playerStats.IncrementGoldCollected();
+                playerInventory.IncrementGold();
+            }
+            if (gameObjects.First<GameObject>().name == "Log(Clone)")
+            {
+                playerStats.IncrementWoodCollected();
+                playerInventory.IncrementWood();
+            }
+            if (gameObjects.First<GameObject>().name == "Meat(Clone)")
+            {
+                playerStats.IncrementMeatCollected();
+                playerInventory.IncrementMeat();
+            }
+            Destroy(gameObjects.First<GameObject>());
         }
-        if (gameObjects.First<GameObject>().name == "Log(Clone)")
-        {
-            playerStats.IncrementWoodCollected();
-            playerInventory.IncrementWood();
-        }
-        if (gameObjects.First<GameObject>().name == "Meat(Clone)")
-        {
-            playerStats.IncrementMeatCollected();
-            playerInventory.IncrementMeat();
-        }
-        Destroy(gameObjects.First<GameObject>());
+
+    
     }
 
 }

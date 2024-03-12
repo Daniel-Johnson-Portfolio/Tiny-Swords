@@ -23,6 +23,7 @@ public class SCR_TRADE_GIVER : SCR_M_GIVER_A_CLASS
 
     protected override void Selection()
     {
+        GameObject[] Traders = GameObject.FindGameObjectsWithTag("NPC_TRADER");
         if (IsTradeSelected == false)
         {
             do
@@ -33,18 +34,6 @@ public class SCR_TRADE_GIVER : SCR_M_GIVER_A_CLASS
 
             IsTradeSelected = true;
         }
-    }
-
-    protected override void SetText(TMP_Text Title, TMP_Text Description)
-    {
-        Title.text = "Trade";
-        Description.text = selectedTrade.Description;
-
-    }
-    protected override void Update()
-    {
-        GameObject[] Traders = GameObject.FindGameObjectsWithTag("NPC_TRADER");
-        Selection();
         foreach (GameObject Trader in Traders)
         {
             TMP_Text npcTitle = Trader.transform.GetChild(0).GetChild(0).GetChild(1).Find("TradeTitle").GetComponent<TMP_Text>();
@@ -56,6 +45,22 @@ public class SCR_TRADE_GIVER : SCR_M_GIVER_A_CLASS
             npcReward.text = "For: " + selectedTrade.Reward.ToString() + " XP";
 
         }
+    }
+
+    protected override void SetText(TMP_Text Title, TMP_Text Description)
+    {
+        Title.text = "Trade";
+        Description.text = selectedTrade.Description;
+
+    }
+    protected override void Update()
+    {
+        if (IsTradeSelected == false) 
+        {
+            Selection();
+        }
+       
+        
     }
 
     public override void HandleDenyReRoll(Button button)

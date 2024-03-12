@@ -90,18 +90,6 @@ public class SCR_M_InputManager : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public bool InputRequest(KeyCode requested)
     {
         if (Input.GetKey(requested))

@@ -11,8 +11,7 @@ public class SCR_FA_MANAGER : MonoBehaviour
         FA = new FollowerAbilities[]
        {
             CreateFA("Medic", "Will Heal You", 1, Ability.Medic, 50),
-            CreateFA("Medic", "Will Heal You", 1, Ability.Medic, 50),
-            CreateFA("Medic", "Will Heal You", 1, Ability.Medic, 50),
+            //More abilities can be added here
        };
     }
 

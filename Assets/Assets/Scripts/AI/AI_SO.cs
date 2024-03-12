@@ -11,5 +11,4 @@ public class AISettings : ScriptableObject
     public int maxHealth = 1;
     public float attackCooldown = 1f;
     public float attackRadiusSize = 1f;
-    // Add other configurable fields here
 }

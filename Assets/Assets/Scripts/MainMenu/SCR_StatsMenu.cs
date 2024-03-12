@@ -15,7 +15,7 @@ public class SCR_StatsMenu : MonoBehaviour
 
     }
 
-    // Update is called once per frame
+    // Updates the stats menu
     void Update()
     {
         transform.Find("GoblinsKilled_Text").GetComponent<TextMeshProUGUI>().text = "Total Goblins Killed:  " + playerStats.goblinStats.AmountKilled;

@@ -8,6 +8,7 @@ public class SCR_FOLLOW_ABILITY_GIVER : SCR_M_GIVER_A_CLASS
 {
     [Header("Objects")]
     [SerializeField] public SCR_FA_MANAGER FA_Manager;
+    //Follower abitiy selected
     [SerializeField] private bool IsFaSelected = false;
     [SerializeField] public TMP_Text FAError;
     [SerializeField] private SCR_PlayerInventory playerInventory;
@@ -31,6 +32,7 @@ public class SCR_FOLLOW_ABILITY_GIVER : SCR_M_GIVER_A_CLASS
         Selection();
         foreach (GameObject Follower in Followers)
         {
+            //Sets UI to display the selected follower ability
             TMP_Text npcTitle = Follower.transform.GetChild(0).GetChild(0).GetChild(1).Find("FATitle").GetComponent<TMP_Text>();
             TMP_Text npcDescription = Follower.transform.GetChild(0).GetChild(0).GetChild(1).Find("FADescription").GetComponent<TMP_Text>();
             TMP_Text npcCost = Follower.transform.GetChild(0).GetChild(0).GetChild(1).Find("FACost").GetComponent<TMP_Text>();
@@ -40,7 +42,7 @@ public class SCR_FOLLOW_ABILITY_GIVER : SCR_M_GIVER_A_CLASS
         }
     }
     protected override void Selection()
-    {
+    {   
         if (IsFaSelected == false)
         {
             do

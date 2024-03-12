@@ -45,7 +45,7 @@ public class SCR_AI_THROWER : SCR_AI_CLASS
     {
         if (distanceToPlayer <= (aiSettings.attackRadiusSize / 2))
         {
-            agent.ResetPath();
+            agent.ResetPath(); //Stop the AI from moving any closer to the player when in throwing range
         }
 
         if (distanceToPlayer <= aiSettings.attackRadiusSize && timeSinceLastAttack >= aiSettings.attackCooldown)
@@ -56,7 +56,4 @@ public class SCR_AI_THROWER : SCR_AI_CLASS
 
 
     }
-
-
-    // Override other methods as needed
 }

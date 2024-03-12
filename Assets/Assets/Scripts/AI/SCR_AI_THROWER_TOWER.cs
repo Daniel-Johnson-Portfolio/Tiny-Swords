@@ -5,7 +5,7 @@ using UnityEngine;
 public class SCR_AI_THROWER_TOWER : SCR_AI_THROWER
 {
 
-    private AISettings aiSettings;
+   // private AISettings aiSettings;
 
     protected override void Start()
     {

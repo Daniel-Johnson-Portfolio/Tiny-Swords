@@ -18,9 +18,8 @@ public class SCR_NPC_TRADER : SCR_NPC_CLASS
         if (TransactionComplete)
         {
             base.CloseAll();
-            base.tools.ResetCamera();
             timer += Time.deltaTime;
-            if (timer > 1) //2 minute cooldown
+            if (timer > 120) //2 minute cooldown
             {
                 timer = 0;
                 TransactionComplete = false;

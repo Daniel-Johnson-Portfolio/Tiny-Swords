@@ -43,7 +43,7 @@ public class SCR_NPC_CLASS : MonoBehaviour
         banner = transform.GetChild(0).gameObject;
         scroll = banner.transform.GetChild(0).GetChild(1).gameObject;
         acceptButton = scroll.transform.Find("Accept").GetComponent<Button>();
-        denyButton = scroll.transform.Find("Deny").GetComponent<Button>();  //MayCauseNullReferenceException
+        denyButton = scroll.transform.Find("Deny").GetComponent<Button>();
         SetButtons();
     }
 
@@ -61,9 +61,7 @@ public class SCR_NPC_CLASS : MonoBehaviour
     {
         scroll.SetActive(true);
         tools.SetCamera(banner.transform.position + new Vector3(-0.5f, 0.5f, -15f));
-        StartCoroutine(tools.Open(scroll));
-       
-        
+        StartCoroutine(tools.Open(scroll)); 
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D collider)
@@ -99,18 +97,19 @@ public class SCR_NPC_CLASS : MonoBehaviour
     {
         if (collider.CompareTag("Player"))
         {
-            tools.ResetCamera();
+            
             if (active) // Check if interaction is active before proceeding
             {
+                active = false;
+                print("Exit");
+                tools.ResetCamera();
                 CloseAll();
-                
             }
         }
     }
 
     protected virtual void CloseAll()
     {
-        // Ensure this method doesn't get called again before it's finished processing
         if (!closingInProgress)
         {
             closingInProgress = true; // A flag to indicate the closing process is in progress
@@ -124,7 +123,7 @@ public class SCR_NPC_CLASS : MonoBehaviour
     private IEnumerator Function(Action onCompletion = null)
     {
         CloseInteraction();
-        yield return new WaitForEndOfFrame(); // Ensure this runs after any immediate UI changes
+        yield return new WaitForEndOfFrame();
         onCompletion?.Invoke(); // Invoke the completion callback, if provided
         active = false;
     }

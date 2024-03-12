@@ -18,6 +18,7 @@ public class SCR_Player_MasterController : MonoBehaviour
     [SerializeField] private Vector2 movementInput;
     [SerializeField] private bool CanMove;
     [SerializeField] public bool IsAlive;
+    [SerializeField] private SCR_Player_Stats playerStats;
 
     [Header("Objects")]
     [SerializeField] private TMP_Text HealthDisplay;
@@ -54,7 +55,7 @@ public class SCR_Player_MasterController : MonoBehaviour
             PlayerMovementSpeed = playerConfig.movementSpeed;
             MaxHealth = playerConfig.maxHealth;
         }
-
+        playerStats = FindObjectOfType<SCR_Player_Stats>();
         Menu = transform.GetChild(0).Find("Menu").gameObject;
         Button button = Menu.transform.Find("Exit").GetComponent<Button>();
         button.onClick.AddListener(() => tools?.ReturnToMain());
@@ -96,6 +97,7 @@ public class SCR_Player_MasterController : MonoBehaviour
     }
     private void Dead() 
     {
+        playerStats.IncrementTimesDied();
         Animator.SetBool("IsDead", true);
         Animator.SetTrigger("Dead");
         CanMove = false;
@@ -119,8 +121,8 @@ public class SCR_Player_MasterController : MonoBehaviour
         tools.StartCoroutine(tools.ProcessCodeQueue());
         IsAlive = true;
         CurrentHealth = MaxHealth;
-        //Reset character sprite
-        //Set player position to last checkpoint
+        gameObject.transform.position = new Vector3(-2, -4, 0);
+        Animator.SetTrigger("Respawn");
     }
 
     private void UpdateHealthDisplay()
@@ -186,7 +188,7 @@ public class SCR_Player_MasterController : MonoBehaviour
 
     private void HandleMenuInput() 
     {
-        if (Input.GetKey(SCR_M_InputManager.InputManager.INPUT_MENU))
+        if (Input.GetKeyDown(SCR_M_InputManager.InputManager.INPUT_MENU))
         {
             Menu.SetActive(true);
         }

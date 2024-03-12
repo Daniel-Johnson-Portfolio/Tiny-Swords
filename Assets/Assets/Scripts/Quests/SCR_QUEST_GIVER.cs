@@ -61,13 +61,17 @@ public class SCR_QUEST_GIVER : SCR_M_GIVER_A_CLASS
 
     public override void HandleAccept(Button button)
     {
+        print("HandelAccept");
         tools.ResetCamera();
         selectedQuest.IsActive = true;
         player.GetComponent<SCR_Player_MasterController>().quest = selectedQuest;
         CurrentNPC = button.gameObject.transform.parent.parent.parent.parent.gameObject;
 
-        StartCoroutine(tools.Open(player.transform.GetChild(0).GetChild(0).gameObject));
-        StartCoroutine(tools.Open(player.transform.GetChild(0).GetChild(1).gameObject));
-        StartCoroutine(tools.Close(CurrentNPC.transform.GetChild(0).gameObject));
+        tools.AddToQueue(tools.Open(player.transform.GetChild(0).GetChild(0).gameObject));
+        tools.AddToQueue(tools.Open(player.transform.GetChild(0).GetChild(1).gameObject));
+        tools.AddToQueue(tools.Close(CurrentNPC.transform.GetChild(0).gameObject));
+
+        StartCoroutine(tools.ProcessCodeQueue());
+
     }
 }

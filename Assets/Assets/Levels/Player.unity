@@ -1681,9 +1681,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior_Blue Variant
       objectReference: {fileID: 0}
+    - target: {fileID: 2662511639527601361, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 2796039081619422237, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 2.25
+      value: 2.249939
       objectReference: {fileID: 0}
     - target: {fileID: 2963050475204975796, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_RootOrder
@@ -1691,11 +1695,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2963050475204975796, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.47
+      value: -1.8
       objectReference: {fileID: 0}
     - target: {fileID: 2963050475204975796, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.85
+      value: -2.2
       objectReference: {fileID: 0}
     - target: {fileID: 2963050475204975796, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1731,7 +1735,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3294931940730214474, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.75
+      value: -0.74998474
       objectReference: {fileID: 0}
     - target: {fileID: 3294931940730214474, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1755,7 +1759,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4041288644960277677, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 3.4374962
+      value: 3.4374504
       objectReference: {fileID: 0}
     - target: {fileID: 4117755623580630806, guid: 19819e7c15c90c34cb23d20816df1dbb, type: 3}
       propertyPath: m_fontSize

@@ -16,7 +16,7 @@ public class SCR_KeyBinds : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //SCR_M_InputManager.InputManager.AssignDefaultKeys();
+        //Sets the keys from the PlayerPrefs
         menuPanel = transform.Find("Grid");
         waitingForKey = false;
 
